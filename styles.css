@@ -1,0 +1,118 @@
+
+
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: 0;
+}
+body {
+    background:rgb(27, 27, 27);
+    color:white;
+    text-align: c;
+}
+.content {
+
+
+    padding-bottom: 10px;
+ 
+    
+    
+
+}
+main {
+    text-align:center;
+    display:flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.stats-holder {
+
+    display: flex;
+    justify-content: center;
+}
+
+.stats {
+    width:300px;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.grid-holder {
+
+    display:flex;
+    justify-content: center;
+
+}
+.grid-prototype {
+    border: 4px solid white;
+    height:500px;
+    width:300px;
+    text-align: center;
+    line-height: 500px;
+}
+
+.bottom-container {
+
+    display: flex;
+
+    justify-content: center;
+}
+
+.grid-buttons {
+
+    display: flex;
+    width:300px;
+
+    justify-content: space-between;
+}
+.small-grid {
+    width:120px;
+    border: 4px solid white;
+    height:75px;
+
+}
+
+.bottom-container {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width:370px){
+    .small-grid {
+        width:80px;
+        border: 4px solid white;
+        height:50px;
+    }
+}
+
+@media only screen and (max-width:330px){
+
+    
+    .small-grid {
+        width:60px;
+        height:34px;
+    }
+}
+
+@media only screen and (max-width: 316px){
+    .grid-prototype {
+        height:250px;
+        width: 150px;
+        line-height: 250px;
+    }
+
+    .grid-buttons {
+        width:150px;
+        flex-wrap: wrap;
+ 
+    }
+    .buttons {
+        width: 150px;
+
+        justify-content:space-around ;
+        display: flex;
+    }
+
+    
+}
+
