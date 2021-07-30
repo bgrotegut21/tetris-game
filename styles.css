@@ -169,6 +169,11 @@ main {
     .content {
         display:flex
     }
+    .grid-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
     
 
     
