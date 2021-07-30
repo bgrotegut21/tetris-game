@@ -8,7 +8,7 @@
 body {
     background:rgb(27, 27, 27);
     color:white;
-    text-align: c;
+
 }
 .content {
 
@@ -167,11 +167,174 @@ main {
 
 @media only screen and (min-width: 600px){
     .content {
-        display:flex
+     
+        display:flex;
+        
     }
     .grid-buttons {
+     
         display: flex;
         flex-direction: column;
+        width:200px;
+        align-items: center;
+       
+        margin-left: 30px;
+
+    }
+    .stats {
+        
+        width:200px;
+        justify-content: space-around;
+        
+        flex-direction: row;
+        font-size: larger;
+
+    }
+    .buttons{
+        display: flex;
+        width:200px;
+        justify-content: space-around;
+    }
+    .small-grid {
+        width:120px;
+        height:80px;
+    }
+
+    .iTetromino-image{
+        position: relative;
+        top:20px;
+        display: none;
+        width:120px
+    }
+    
+    .zTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    
+    }
+    
+    .sTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    }
+    
+    .tTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    }
+    .jTetromino-image {
+        position:relative;
+        top: 20px;
+        display:none;
+        width:120px;
+        
+    }
+    .oTetromino-image {
+        position:relative;
+        top: 20px;
+        display:none;
+        width:120px;
+        
+    }
+    
+    .lTetromino-image {
+        position:relative;
+        top: 20px;
+        display: block;
+        width:120px;
+        
+    }
+
+    
+
+    
+}
+
+@media only screen and (max-width: 320px){
+    .grid-prototype {
+        height:250px;
+        width: 125px;
+        line-height: 250px;
+    }
+
+    .grid-buttons {
+        width:125px;
+        flex-wrap: wrap;
+ 
+    }
+    .buttons {
+        width: 125px;
+
+        justify-content:space-around ;
+        display: flex;
+    }
+
+    
+}
+
+
+@media only screen and (min-width: 900px){
+    .grid-prototype{
+        width:500px;
+        height:1000px;
+    }
+  
+
+    .iTetromino-image{
+        position: relative;
+        top:20px;
+        display: none;
+        width:120px
+    }
+    
+    .zTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    
+    }
+    
+    .sTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    }
+    
+    .tTetromino-image {
+        position:relative;
+        top:20px;
+        display:none;
+        width:120px;
+    }
+    .jTetromino-image {
+        position:relative;
+        top: 20px;
+        display:none;
+        width:120px;
+        
+    }
+    .oTetromino-image {
+        position:relative;
+        top: 20px;
+        display:none;
+        width:120px;
+        
+    }
+    
+    .lTetromino-image {
+        position:relative;
+        top: 20px;
+        display: none;
+        width:120px;
+        
     }
 
     
