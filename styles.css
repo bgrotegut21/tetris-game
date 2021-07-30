@@ -77,37 +77,70 @@ main {
 .small-grid {
     width:60px;
 
-    border: 4px solid white;
+
     height:40px;
-  
+    background:white;
+    
 }
 
-.tetromino-image {
+.iTetromino-image{
     position: relative;
     top:10px;
     display: none;
 }
 
+.zTetromino-image {
+    position:relative;
+    top:10px;
+    display:none;
+
+}
+
+.sTetromino-image {
+    position:relative;
+    top:10px;
+    display:none;
+}
+
+.tTetromino-image {
+    position:relative;
+    top:10px;
+    display:none;
+}
+.jTetromino-image {
+    position:relative;
+    top: 10px;
+    display:none
+    
+}
+.oTetromino-image {
+    position:relative;
+    top: 10px;
+    display:none;
+    
+}
+
+.lTetromino-image {
+    position:relative;
+    top: 10px;
+    display: none;
+    
+}
+
+
+
+
+
+
+
+
 .bottom-container {
     margin-top: 10px;
+
 }
 
-@media only screen and (max-width:370px){
-    .small-grid {
-        width:80px;
-        border: 4px solid white;
-        height:50px;
-    }
-}
 
-@media only screen and (max-width:330px){
 
-    
-    .small-grid {
-        width:40px;
-        height:34px;
-    }
-}
 
 @media only screen and (max-width: 320px){
     .grid-prototype {
@@ -131,3 +164,12 @@ main {
     
 }
 
+
+@media only screen and (min-width: 600px){
+    .content {
+        display:flex
+    }
+    
+
+    
+}
