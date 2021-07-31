@@ -9,6 +9,8 @@ body {
     background:rgb(27, 27, 27);
     color:white;
 
+    font-family: 'Electrolize', sans-serif;
+
 }
 .content {
 
@@ -52,7 +54,8 @@ main {
     justify-content: center;
 
 }
-.grid-prototype {
+.grid {
+    position: relative;
     border: 4px solid white;
     height:500px;
     width:250px;
@@ -67,6 +70,14 @@ main {
     justify-content: center;
 }
 
+.mode-text{
+    display: none;
+    cursor: pointer;
+}
+
+.pause , .quit {
+    cursor: pointer;
+}
 .grid-buttons {
 
     display: flex;
@@ -123,7 +134,7 @@ main {
 .lTetromino-image {
     position:relative;
     top: 10px;
-    display: none;
+    display: block;
     
 }
 
@@ -139,11 +150,24 @@ main {
 
 }
 
+.zTetromino {
+    background:green;
+    display:flex
+
+}
+
+
+
+
+
+.tr {
+    background:green
+}
 
 
 
 @media only screen and (max-width: 320px){
-    .grid-prototype {
+    .grid{
         height:250px;
         width: 125px;
         line-height: 250px;
@@ -257,7 +281,7 @@ main {
 }
 
 @media only screen and (max-width: 320px){
-    .grid-prototype {
+    .grid{
         height:250px;
         width: 125px;
         line-height: 250px;
@@ -279,65 +303,3 @@ main {
 }
 
 
-@media only screen and (min-width: 900px){
-    .grid-prototype{
-        width:500px;
-        height:1000px;
-    }
-  
-
-    .iTetromino-image{
-        position: relative;
-        top:20px;
-        display: none;
-        width:120px
-    }
-    
-    .zTetromino-image {
-        position:relative;
-        top:20px;
-        display:none;
-        width:120px;
-    
-    }
-    
-    .sTetromino-image {
-        position:relative;
-        top:20px;
-        display:none;
-        width:120px;
-    }
-    
-    .tTetromino-image {
-        position:relative;
-        top:20px;
-        display:none;
-        width:120px;
-    }
-    .jTetromino-image {
-        position:relative;
-        top: 20px;
-        display:none;
-        width:120px;
-        
-    }
-    .oTetromino-image {
-        position:relative;
-        top: 20px;
-        display:none;
-        width:120px;
-        
-    }
-    
-    .lTetromino-image {
-        position:relative;
-        top: 20px;
-        display: none;
-        width:120px;
-        
-    }
-
-    
-
-    
-}
