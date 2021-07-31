@@ -63,6 +63,12 @@ main {
     line-height: 500px;
 }
 
+.square {
+    position: absolute;
+    width: 25px;
+    height:25px;
+}
+
 .bottom-container {
 
     display: flex;
@@ -282,10 +288,19 @@ main {
 
 @media only screen and (max-width: 320px){
     .grid{
+        position:relative;
         height:250px;
         width: 125px;
         line-height: 250px;
     }
+
+    .square {
+        position: absolute;
+        width:12.5px;
+        height:12.5px;
+    }
+
+
 
     .grid-buttons {
         width:125px;
