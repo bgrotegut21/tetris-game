@@ -11,8 +11,5 @@ export class Position {
             newPosition = position.y + incrementYPosition;
             return new Position(position.x, newPosition)
         }
-        movePosition (position, newPosition){
-            return newPosition;
-        }
-
+       
 }
