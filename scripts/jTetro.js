@@ -16,10 +16,10 @@ export class JTetromino {
 
     changePosition(position){
         console.log(this.position)
-        this.group.map(square => {
-            square.style.top = position.yPosition + "px";
-            square.style.left = position.xPosition + "px";
-        })
+        index = 1;
+        for (let square of this.group){
+            square.style.left = 
+        }
     }
 
 
