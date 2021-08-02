@@ -20,20 +20,7 @@ class Game {
     
 
     }
-    runMouseEvents (){
-        window.addEventListener("mousedown", ()=> {
-            this.tetroMove = true            
-        })
-        window.addEventListener("mouseup", ()=> {
-            this.tetroMove = false;
-        })
-        window.addEventListener("mousemove", () => {
-            if (!this.tetroMove) return;
 
-        })
-
-
-    }
 
     runKeyEvents(){
         window.addEventListener("keydown", action => {
@@ -49,7 +36,7 @@ class Game {
 
 
             if (action.key == "q") {
-                console.log("quit")
+                console.log("quit")s
                 Settings.prototype.gameOn = false;
                 startTimer();
             }
