@@ -3,12 +3,12 @@ export class Position {
             this.xPosition = xPosition;
             this.yPosition = yPosition;
         }
-        addX (position, incrementXPosition){
-            newPosition = position.x + incrementXPosition;
-            return new Position(newPosition, position.y);
+        addX (incrementXPosition){
+            let newPosition = this.xPosition + incrementXPosition;
+            return new Position(newPosition, this.yPosition);
         }
-        addY (position, incrementYPosition){
-            newPosition = position.y + incrementYPosition;
-            return new Position(position.x, newPosition)
+        addY (incrementYPosition){
+            let newPosition = this.yPosition + incrementYPosition;
+            return new Position(this.xPosition, newPosition)
         }
-    
+    }

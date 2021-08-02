@@ -3,38 +3,79 @@ import { Settings } from "./settings.js";
 import {JTetromino} from "./jTetro.js";
 import {Position} from "./position.js"
 
-let gameOn = true
-
 class Game {
     constructor(){
         this.attribute = new Attribute;
-        this.settings = new Settings;
-        this.jTetromino = new JTetromino(new Position(75,25));
-
-
+        this.jTetrominoPosition = new Position(75,0)
+        this.jTetromino = new JTetromino(this.jTetrominoPosition);
+        this.tetroMove = false
     }
+    
+
+
     runOnce(){
-        console.log("this will run once")
         this.jTetromino.createTetromino()
         this.runKeyEvents()
+        this.runMouseEvents()
+    
 
     }
+    runMouseEvents (){
+        window.addEventListener("mousedown", ()=> {
+            this.tetroMove = true            
+        })
+        window.addEventListener("mouseup", ()=> {
+            this.tetroMove = false;
+        })
+        window.addEventListener("mousemove", () => {
+            if (!this.tetroMove) return;
+
+        })
+
+
+    }
+
     runKeyEvents(){
-        console.log("random key event")
+        window.addEventListener("keydown", action => {
+            if (action.key == "ArrowRight") {
+                if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
+            }
+            if (action.key == "ArrowLeft"){
+                if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
+            }
+            if (action.key == "ArrowDown"){
+                if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
+            }
+
+
+            if (action.key == "q") {
+                console.log("quit")
+                Settings.prototype.gameOn = false;
+                startTimer();
+            }
+            if(action.key == "p") {
+                Settings.prototype.gameOn = true
+                startTimer();
+            }
+            action.preventDefault();
+        })
     }
     
 
     runGame(){
+
+        this.jTetromino.changePosition(this.jTetrominoPosition)
         
-        gameOn = false;
-        console.log("will run game until the player quits or pauses");
     }
 }
 
 let game = new Game;
 
-
 game.runOnce()
-while (gameOn){
-    game.runGame();
+function startTimer(){
+    let timer = setInterval(function(){
+        if(!Settings.prototype.gameOn) clearInterval(timer);
+  
+        game.runGame()
+    },10)
 }

@@ -140,7 +140,7 @@ main {
 .lTetromino-image {
     position:relative;
     top: 10px;
-    display: block;
+    display: none;
     
 }
 
@@ -158,7 +158,8 @@ main {
 
 .zTetromino {
     background:green;
-    display:flex
+    top:10px
+    display:none;
 
 }
 
@@ -276,7 +277,7 @@ main {
     .lTetromino-image {
         position:relative;
         top: 20px;
-        display: block;
+        display: none;
         width:120px;
         
     }

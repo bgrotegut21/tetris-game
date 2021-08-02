@@ -11,16 +11,45 @@ export class JTetromino {
         this.position = position;
         this.squres = 4;
         this.group = []
+        this.moveTetro = false;
 
     }
+
+    mouseEvent (){
+        this.group[2].addEventListener("mousedown",action => {
+            this.moveTetro = true;
+            action.preventDefault(); ss
+            
+        })
+        this.group[2].addEventListener("mousedown",() => {
+            this.moveTetro = false;
+        })
+        this.group[2].addEventListener("mousemove",() => {
+            if (!this.moveTetro) return;
+
+        })
+        
+    }
+
 
     changePosition(position){
-        console.log(this.position)
-        index = 1;
+        this.position = position
+        let index = 1;
+        let first = true;
         for (let square of this.group){
-            square.style.left = 
+            if (first){
+                square.style.left = position.xPosition + this.sizeX *index + "px";
+                square.style.top = position.yPosition + "px"
+                first = false
+            } else {
+                square.style.left = position.xPosition + this.sizeX *index + "px";
+                square.style.top = position.yPosition + this.sizeY + "px"
+                index+= 1;
+            }
+            
         }
     }
+
 
 
     createTetromino() {
@@ -53,13 +82,7 @@ export class JTetromino {
         
 
     }
-    moveSquares(canMove){
-        if (canMove) {
-            newPosition = this.position.addX(this.position,25)
-            this.changePosition(newPosition);
-            canMove = false;
-        } 
-    }
+
 
 
 }
