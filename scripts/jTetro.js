@@ -16,14 +16,27 @@ export class JTetromino {
         this.group = []
         this.moveTetro = true;
         this.lastXPosition;
+        currentPosition = 0;
 
     }
 
 
 
+//Different positions
+// |_    -|        |_      --|
+// 1     2         3        4
 
+    changeArrangement(){
+        this.group.map(square => {
+            square.remove()
+        })
 
+        for (let i = 0; i <4, i++ ){
+            square = document.createElement("div");
+            square.setAttribute("class","square")
+        }
 
+    }
 
 
     changePosition(position){

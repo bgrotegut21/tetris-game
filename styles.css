@@ -10,6 +10,7 @@ body {
     color:white;
 
     font-family: 'Electrolize', sans-serif;
+    touch-action: none;
 
 }
 .content {

@@ -28,42 +28,46 @@ class Game {
         let yRecordedPosition;
         window.addEventListener("touchstart", action => {
             if (!Settings.prototype.gameOn) return;
-            console.log(action.buttons)
-            recordedPosition = action.clientX;
-            yRecordedPosition = action.clientY;
+            let touchEvent= action.changedTouches[0];
+            recordedPosition = Math.floor(touchEvent.clientX);
+            yRecordedPosition = Math.floor(touchEvent.clientY);
 
             allowtoMove = true
+        });
+        window.addEventListener("mousemove",action => {
+            console.log(action.clientX, "mouse client x")
+        })
 
-            window.addEventListener("touchmove",action => {
-                console.log(action.clientX, "client X")
+        window.addEventListener("touchmove",action => {
+   
+            if (!allowtoMove) return;
+       
+     
+            let touchEvent = action.changedTouches[0];
+
+            console.log(touchEvent.clientX, "client x touch event")
+            if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
+                this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
+                recordedPosition = Math.floor(touchEvent.clientX);
+            }
+
+            if (Math.floor(touchEvent.clientX) < recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
+                this.jTetrominoPosition = this.jTetrominoPosition.addX(-25);
+                recordedPosition = Math.floor(touchEvent.clientX);
+            }
+            if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %10 == 0 ){
+                this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
+                yRecordedPosition = Math.floor(touchEvent.clientY);
+            }
+    
          
-          
-                console.log(action.button)
-                if (action.clientX >recordedPosition && (action.clientX - recordedPosition) % 25 == 0){
-                        this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
-                        recordedPosition = action.clientX;
-                }
-
-                if (action.clientX < recordedPosition && (action.clientX - recordedPosition) % 25 == 0){
-                        this.jTetrominoPosition = this.jTetrominoPosition.addX(-25);
-                        recordedPosition = action.clientX;
-                }
-                if (action.clientY > yRecordedPosition && (action.clientY - yRecordedPosition) %25 == 0 ){
-                    this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
-                    yRecordedPosition = action.clientY
-                }
-
-                action.preventDefault()
-                },false)
-                action.preventDefault()
 
 
-
-        },false);
+        },{passive:true});
         window.addEventListener("touchend", () => {
-            console.log(allowtoMove)
+      
             allowtoMove = false;
-        },false)
+        })
       
         
     }
