@@ -1,5 +1,8 @@
 
 import { Attribute } from "./attributes.js";
+import { Position } from "./position.js";
+
+
 
 
 export class JTetromino {
@@ -11,25 +14,16 @@ export class JTetromino {
         this.position = position;
         this.squres = 4;
         this.group = []
-        this.moveTetro = false;
+        this.moveTetro = true;
+        this.lastXPosition;
 
     }
 
-    mouseEvent (){
-        this.group[2].addEventListener("mousedown",action => {
-            this.moveTetro = true;
-            action.preventDefault(); ss
-            
-        })
-        this.group[2].addEventListener("mousedown",() => {
-            this.moveTetro = false;
-        })
-        this.group[2].addEventListener("mousemove",() => {
-            if (!this.moveTetro) return;
 
-        })
-        
-    }
+
+
+
+
 
 
     changePosition(position){
@@ -79,8 +73,7 @@ export class JTetromino {
         }
         this.changePosition(this.position)
 
-        
-
+   
     }
 
 

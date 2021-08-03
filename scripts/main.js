@@ -14,11 +14,58 @@ class Game {
 
 
     runOnce(){
-        this.jTetromino.createTetromino()
-        this.runKeyEvents()
-        this.runMouseEvents()
+        this.jTetromino.createTetromino();
+        this.runKeyEvents();
+        this.mouseEvent();
     
 
+    }
+
+    mouseEvent (){
+        
+        let allowtoMove = false;
+        let recordedPosition;
+        let yRecordedPosition;
+        window.addEventListener("touchstart", action => {
+            if (!Settings.prototype.gameOn) return;
+            console.log(action.buttons)
+            recordedPosition = action.clientX;
+            yRecordedPosition = action.clientY;
+
+            allowtoMove = true
+
+            window.addEventListener("touchmove",action => {
+                console.log(action.clientX, "client X")
+         
+          
+                console.log(action.button)
+                if (action.clientX >recordedPosition && (action.clientX - recordedPosition) % 25 == 0){
+                        this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
+                        recordedPosition = action.clientX;
+                }
+
+                if (action.clientX < recordedPosition && (action.clientX - recordedPosition) % 25 == 0){
+                        this.jTetrominoPosition = this.jTetrominoPosition.addX(-25);
+                        recordedPosition = action.clientX;
+                }
+                if (action.clientY > yRecordedPosition && (action.clientY - yRecordedPosition) %25 == 0 ){
+                    this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
+                    yRecordedPosition = action.clientY
+                }
+
+                action.preventDefault()
+                },false)
+                action.preventDefault()
+
+
+
+        },false);
+        window.addEventListener("touchend", () => {
+            console.log(allowtoMove)
+            allowtoMove = false;
+        },false)
+      
+        
     }
 
 
@@ -36,7 +83,7 @@ class Game {
 
 
             if (action.key == "q") {
-                console.log("quit")s
+                console.log("quit")
                 Settings.prototype.gameOn = false;
                 startTimer();
             }
