@@ -14,7 +14,7 @@ class Game {
 
 
     runOnce(){
-        this.jTetromino.createTetromino();
+        this.jTetromino.changeFirstPosition();
         this.runKeyEvents();
         this.mouseEvent();
     
@@ -84,7 +84,9 @@ class Game {
             if (action.key == "ArrowDown"){
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
             }
-
+            if (action.key == "ArrowUp"){
+                if (Settings.prototype.gameOn) this.jTetromino.changePlacement();
+            }
 
             if (action.key == "q") {
                 console.log("quit")

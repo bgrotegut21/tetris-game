@@ -16,7 +16,9 @@ export class JTetromino {
         this.group = []
         this.moveTetro = true;
         this.lastXPosition;
-        currentPosition = 0;
+        this.currentPosition = 0;
+        this.canMove = true
+
 
     }
 
@@ -26,20 +28,42 @@ export class JTetromino {
 // |_    -|        |_      --|
 // 1     2         3        4
 
-    changeArrangement(){
-        this.group.map(square => {
-            square.remove()
-        })
+    
 
-        for (let i = 0; i <4, i++ ){
-            square = document.createElement("div");
-            square.setAttribute("class","square")
+
+
+    changePosition(position){
+        this.moveFirstPosition(position);
+        //this.moveDefaultPosition(position);
+
+            
+    }
+
+    moveFirstPosition(position){
+        let index = 1;
+        let second = "second";
+        let secondIndex = 0;
+        for (let square of this.group){
+            if (second) {
+                index = 2
+                square.style.left = position.xPosition + this.sizeX * index + "px";
+                second = false;
+               
+
+            } else {
+                index = 1;
+                console.log(second)
+                
+                square.style.left = position.xPosition + this.sizeX * index + "px";
+                if(second == "second") second = true;
+            }
+            square.style.top = position.yPosition + this.sizeY * secondIndex + "px";
+            secondIndex +=1;
         }
 
     }
 
-
-    changePosition(position){
+    moveDefaultPosition(position){
         this.position = position
         let index = 1;
         let first = true;
@@ -54,12 +78,61 @@ export class JTetromino {
                 index+= 1;
             }
             
+         }
+
+
+    }
+
+    changePlacement(){
+
+        console.log(this.currentPosition)
+        this.canMove = false;
+        if(this.currentPosition == 0) this.changeDefaultPosition();
+        if (this.currentPosition == 1) this.changeFirstPosition();
+        if (this.currentPosition == 1) this.currentPosition = 0;
+        else this.currentPosition += 1;
+
+
+    }
+
+    changeFirstPosition(){
+        this.group.map(square => square.remove());
+        let first = true;
+        let sizeXposition = 0;
+        let sizeYPosition = 0;
+        let square;
+        for (let i = 0; i <4; i++){
+            if (first){
+                square = document.createElement("div");
+                square.setAttribute("class","square");
+                square.style.background = `url(${this.image})`
+                square.style.left = this.sizeX * sizeXposition + "px";
+                this.attribute.grid.appendChild(square)
+                first = false;
+                sizeXposition +=  1;
+            } else {
+                square = document.createElement("div");
+                square.setAttribute("class","square");
+                square.style.background = `url(${this.image})`
+                square.style.left = this.sizeX * sizeXposition + "px";
+                sizeXposition = 0;
+                square.style.top = this.sizeY * sizeYPosition + "px";
+                sizeYPosition +=1;
+                this.attribute.grid.appendChild(square)
+
+
+            }
+            this.group.push(square)
         }
+
     }
 
 
 
-    createTetromino() {
+  
+
+    changeDefaultPosition() {
+        this.group.map(square => square.remove());
         let first = true;
         let size = 0;
         let square
