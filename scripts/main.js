@@ -14,7 +14,7 @@ class Game {
 
 
     runOnce(){
-        this.jTetromino.changeFirstPosition();
+        this.jTetromino.changePlacement();
         this.runKeyEvents();
         this.mouseEvent();
     
@@ -34,18 +34,12 @@ class Game {
 
             allowtoMove = true
         });
-        window.addEventListener("mousemove",action => {
-            console.log(action.clientX, "mouse client x")
-        })
 
         window.addEventListener("touchmove",action => {
    
             if (!allowtoMove) return;
-       
-     
+            this.jTetromino.stopMovement = false
             let touchEvent = action.changedTouches[0];
-
-            console.log(touchEvent.clientX, "client x touch event")
             if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
                 this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
                 recordedPosition = Math.floor(touchEvent.clientX);
@@ -76,6 +70,7 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
+
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
@@ -96,6 +91,12 @@ class Game {
             if(action.key == "p") {
                 Settings.prototype.gameOn = true
                 startTimer();
+            }
+            action.preventDefault();
+        })
+        window.addEventListener("keyup", action => {
+            if (action.key == "ArrowUp"){
+                this.jTetromino.stopMovement = false;
             }
             action.preventDefault();
         })

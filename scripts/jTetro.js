@@ -17,7 +17,8 @@ export class JTetromino {
         this.moveTetro = true;
         this.lastXPosition;
         this.currentPosition = 0;
-        this.canMove = true
+        this.stopMovement = false;  
+        this.movement = "";
 
 
     }
@@ -33,13 +34,13 @@ export class JTetromino {
 
 
     changePosition(position){
-        this.moveFirstPosition(position);
-        //this.moveDefaultPosition(position);
-
+        if(this.stopMovement) return;
+        this.moveDefaultPosition(position);
             
     }
 
     moveFirstPosition(position){
+
         let index = 1;
         let second = "second";
         let secondIndex = 0;
@@ -47,18 +48,19 @@ export class JTetromino {
             if (second) {
                 index = 2
                 square.style.left = position.xPosition + this.sizeX * index + "px";
+                square.style.top = position.yPosition + this.sizeY * secondIndex + "px"
                 second = false;
                
 
             } else {
                 index = 1;
                 console.log(second)
-                
                 square.style.left = position.xPosition + this.sizeX * index + "px";
+                square.style.top = position.yPosition + this.sizeY * secondIndex + "px"
                 if(second == "second") second = true;
+                secondIndex += 1
+                
             }
-            square.style.top = position.yPosition + this.sizeY * secondIndex + "px";
-            secondIndex +=1;
         }
 
     }
@@ -80,17 +82,22 @@ export class JTetromino {
             
          }
 
-
     }
 
     changePlacement(){
-
+        this.stopMovement = true
         console.log(this.currentPosition)
-        this.canMove = false;
-        if(this.currentPosition == 0) this.changeDefaultPosition();
-        if (this.currentPosition == 1) this.changeFirstPosition();
         if (this.currentPosition == 1) this.currentPosition = 0;
-        else this.currentPosition += 1;
+        else this.currentPosition += 1
+        if(this.currentPosition == 0) {
+            this.changeDefaultPosition();
+            this.movement = "default";
+        }
+        if (this.currentPosition == 1){
+            this.changeFirstPosition();
+            this.movement = "first";
+        }
+
 
 
     }
@@ -124,6 +131,7 @@ export class JTetromino {
             }
             this.group.push(square)
         }
+        this.stopMovement = false;
 
     }
 
@@ -132,6 +140,7 @@ export class JTetromino {
   
 
     changeDefaultPosition() {
+
         this.group.map(square => square.remove());
         let first = true;
         let size = 0;
@@ -159,7 +168,8 @@ export class JTetromino {
         }
         this.changePosition(this.position)
 
-   
+
+        this.stopMovement = false;
     }
 
 
