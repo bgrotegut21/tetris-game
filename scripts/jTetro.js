@@ -2,9 +2,6 @@
 import { Attribute } from "./attributes.js";
 import { Position } from "./position.js";
 
-
-
-
 export class JTetromino {
     constructor(position){
         this.attribute = new Attribute;
@@ -16,9 +13,9 @@ export class JTetromino {
         this.group = []
         this.moveTetro = true;
         this.lastXPosition;
-        this.currentPosition = 0;
-        this.stopMovement = false;  
-        this.movement = "";
+        this.currentPosition = 1;
+        this.stopMovement = false;
+
 
 
     }
@@ -29,15 +26,13 @@ export class JTetromino {
 // |_    -|        |_      --|
 // 1     2         3        4
 
-    
-
-
-
-    changePosition(position){
-        if(this.stopMovement) return;
-        this.moveDefaultPosition(position);
-            
+    changePosition (position){
+        if (this.stopMovement) return;
+        if(this.currentPosition == 1) this.moveDefaultPosition(position);
+        if (this.currentPosition == 2) this.moveFirstPosition(position);
     }
+
+
 
     moveFirstPosition(position){
 
@@ -54,7 +49,6 @@ export class JTetromino {
 
             } else {
                 index = 1;
-                console.log(second)
                 square.style.left = position.xPosition + this.sizeX * index + "px";
                 square.style.top = position.yPosition + this.sizeY * secondIndex + "px"
                 if(second == "second") second = true;
@@ -66,9 +60,11 @@ export class JTetromino {
     }
 
     moveDefaultPosition(position){
+
         this.position = position
         let index = 1;
         let first = true;
+
         for (let square of this.group){
             if (first){
                 square.style.left = position.xPosition + this.sizeX *index + "px";
@@ -85,25 +81,24 @@ export class JTetromino {
     }
 
     changePlacement(){
-        this.stopMovement = true
-        console.log(this.currentPosition)
-        if (this.currentPosition == 1) this.currentPosition = 0;
-        else this.currentPosition += 1
-        if(this.currentPosition == 0) {
-            this.changeDefaultPosition();
-            this.movement = "default";
+        console.log("change placement")
+        if (this.currentPosition == 1) {
+            this.stopMovement = true;
+            this.changeDefaultPosition()
         }
-        if (this.currentPosition == 1){
+        if (this.currentPosition == 2){
+            this.stopMovement = true;
             this.changeFirstPosition();
-            this.movement = "first";
         }
+        if (this.currentPosition == 2) this.currentPosition = 1;
+        else this.currentPosition += 1;
 
 
 
     }
 
     changeFirstPosition(){
-        this.group.map(square => square.remove());
+        this.removeSquareGroup()
         let first = true;
         let sizeXposition = 0;
         let sizeYPosition = 0;
@@ -132,16 +127,22 @@ export class JTetromino {
             this.group.push(square)
         }
         this.stopMovement = false;
+        this.changePosition(this.position)
 
     }
 
 
+    removeSquareGroup(){
 
-  
+        this.group.map (square => square.remove())
+        console.log(this.attribute.grid, "attribute grid")
+        this.group = [];
+    }
+    
 
     changeDefaultPosition() {
-
-        this.group.map(square => square.remove());
+        console.log("change default position")
+        this.removeSquareGroup();
         let first = true;
         let size = 0;
         let square
@@ -163,13 +164,13 @@ export class JTetromino {
                 this.attribute.grid.appendChild(square);
                 size += 1;
             }
-            this.group.push(square)
-            
+         this.group.push(square)   
         }
+        this.stopMovement = false
         this.changePosition(this.position)
 
 
-        this.stopMovement = false;
+
     }
 
 

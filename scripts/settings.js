@@ -1,4 +1,6 @@
 export function Settings(){
-    this.speed = 3;
+    this.gridHeight = 500;
+    this.gridWidth = 250;
+    this.collisionWidth = -25;
     this.gameOn =  false;
 }

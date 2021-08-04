@@ -14,12 +14,34 @@ class Game {
 
 
     runOnce(){
-        this.jTetromino.changePlacement();
+
         this.runKeyEvents();
         this.mouseEvent();
+        this.jTetromino.changePlacement();
+        this.jTetromino.changePlacement();
     
 
     }
+
+    leftWallCollision(){
+        console.log(Settings.)
+        console.log(Settings.prototype.collisionWidth, "collision width")
+        if (this.jTetrominoPosition.xPosition <= Settings.prototype.leftCollisionWidth ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    rightWallCollision(){
+        if (this.jTetrominoPosition.xPosition >= Settings.prototype.gridWidth ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     mouseEvent (){
         
@@ -34,7 +56,10 @@ class Game {
 
             allowtoMove = true
         });
-
+        window.addEventListener("click",() => {
+            if(!Settings.prototype.gameOn) return;
+            this.jTetromino.changePlacement();
+        })
         window.addEventListener("touchmove",action => {
    
             if (!allowtoMove) return;
@@ -70,16 +95,19 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
-
+                if (this.rightWallCollision()) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
+                console.log("left arrow")
+                if (this.leftWallCollision()) return;
                 if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
             }
             if (action.key == "ArrowDown"){
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
             }
             if (action.key == "ArrowUp"){
+                if (this.wallCollision()) return;
                 if (Settings.prototype.gameOn) this.jTetromino.changePlacement();
             }
 
@@ -105,7 +133,7 @@ class Game {
 
     runGame(){
 
-        this.jTetromino.changePosition(this.jTetrominoPosition)
+        if (!this.jTetromino.stopMovement) this.jTetromino.changePosition(this.jTetrominoPosition)
         
     }
 }
