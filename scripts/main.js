@@ -9,6 +9,7 @@ class Game {
         this.jTetrominoPosition = new Position(75,0)
         this.jTetromino = new JTetromino(this.jTetrominoPosition);
         this.tetroMove = false
+        this.settings = new Settings;
     }
     
 
@@ -24,24 +25,47 @@ class Game {
     }
 
     leftWallCollision(){
-        console.log(Settings.)
-        console.log(Settings.prototype.collisionWidth, "collision width")
-        if (this.jTetrominoPosition.xPosition <= Settings.prototype.leftCollisionWidth ){
+        if (this.jTetrominoPosition.xPosition <= this.settings.collisionWidth){
             return true;
         } else {
             return false;
         }
     }
 
-    rightWallCollision(){
-        if (this.jTetrominoPosition.xPosition >= Settings.prototype.gridWidth ){
+    rightWallCollision(tetro){
+        let width ;
+        if(tetro.currentPosition == 1) width = tetro.gridWidth;
+        if(tetro.currentPosition == 2) width = tetro.gridWidth2;
+        if (this.jTetrominoPosition.xPosition >= width){
             return true;
         } else {
             return false;
         }
     }
 
+    bottomWallCollision(tetro) {
+        console.log(tetro.position)
+        console.log(this.jTetromino.position)
+        let height;
+        if(tetro.currentPosition == 1) height = tetro.gridHeight;
+        if(tetro.currentPosition == 2) height = tetro.gridHeight2;
+      
+        if (tetro.position.yPosition >= height){
+            this.addToGrid(tetro);
+            return true;
+        } else {
+            return false;
+        }
 
+    }
+
+    addToGrid(tetro){
+        tetro.group = [];
+        tetro.changePlacement();
+        tetro.changePlacement();
+        this.jTetrominoPosition = new Position (75,0);
+        tetro.changePosition(this.jTetrominoPosition)
+    }
 
     mouseEvent (){
         
@@ -95,24 +119,24 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
-                if (this.rightWallCollision()) return;
+                if (this.rightWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
-                console.log("left arrow")
-                if (this.leftWallCollision()) return;
+                if (this.leftWallCollision(this.jTetromino)) return;
                 if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
             }
             if (action.key == "ArrowDown"){
+                if(this.bottomWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
             }
             if (action.key == "ArrowUp"){
-                if (this.wallCollision()) return;
+        
                 if (Settings.prototype.gameOn) this.jTetromino.changePlacement();
             }
 
             if (action.key == "q") {
-                console.log("quit")
+
                 Settings.prototype.gameOn = false;
                 startTimer();
             }

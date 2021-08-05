@@ -15,6 +15,11 @@ export class JTetromino {
         this.lastXPosition;
         this.currentPosition = 1;
         this.stopMovement = false;
+        this.gridWidth = 150;
+        this.gridWidth2 = 175;
+        this.gridHeight = 450;
+        this.gridHeight2 = 425;
+    
 
 
 
@@ -36,6 +41,7 @@ export class JTetromino {
 
     moveFirstPosition(position){
 
+        this.position = position
         let index = 1;
         let second = "second";
         let secondIndex = 0;
@@ -83,6 +89,7 @@ export class JTetromino {
     changePlacement(){
         console.log("change placement")
         if (this.currentPosition == 1) {
+            
             this.stopMovement = true;
             this.changeDefaultPosition()
         }
@@ -98,6 +105,7 @@ export class JTetromino {
     }
 
     changeFirstPosition(){
+        if(this.position.xPosition >= this.gridWidth) return;
         this.removeSquareGroup()
         let first = true;
         let sizeXposition = 0;
@@ -141,6 +149,7 @@ export class JTetromino {
     
 
     changeDefaultPosition() {
+        if(this.position.xPosition >= this.gridWidth2) return;
         console.log("change default position")
         this.removeSquareGroup();
         let first = true;
