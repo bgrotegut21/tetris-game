@@ -36,6 +36,7 @@ class Game {
         let width ;
         if(tetro.currentPosition == 1) width = tetro.gridWidth;
         if(tetro.currentPosition == 2) width = tetro.gridWidth2;
+
         if (this.jTetrominoPosition.xPosition >= width){
             return true;
         } else {
@@ -44,27 +45,30 @@ class Game {
     }
 
     bottomWallCollision(tetro) {
-        console.log(tetro.position)
-        console.log(this.jTetromino.position)
+        console.log("bottom collision")
+
         let height;
         if(tetro.currentPosition == 1) height = tetro.gridHeight;
         if(tetro.currentPosition == 2) height = tetro.gridHeight2;
-      
+     
         if (tetro.position.yPosition >= height){
             this.addToGrid(tetro);
             return true;
         } else {
+
             return false;
         }
 
     }
 
     addToGrid(tetro){
+        console.log("add to grid")
         tetro.group = [];
-        tetro.changePlacement();
-        tetro.changePlacement();
         this.jTetrominoPosition = new Position (75,0);
         tetro.changePosition(this.jTetrominoPosition)
+        tetro.changePlacement();
+        tetro.changePlacement();
+
     }
 
     mouseEvent (){

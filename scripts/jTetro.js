@@ -87,13 +87,15 @@ export class JTetromino {
     }
 
     changePlacement(){
-        console.log("change placement")
+
         if (this.currentPosition == 1) {
-            
+
+            if(this.position.xPosition >= this.gridWidth) return true;
             this.stopMovement = true;
             this.changeDefaultPosition()
         }
         if (this.currentPosition == 2){
+            if (this.position.xPosition >= this.gridWidth2) return;
             this.stopMovement = true;
             this.changeFirstPosition();
         }
@@ -105,7 +107,6 @@ export class JTetromino {
     }
 
     changeFirstPosition(){
-        if(this.position.xPosition >= this.gridWidth) return;
         this.removeSquareGroup()
         let first = true;
         let sizeXposition = 0;
@@ -143,14 +144,12 @@ export class JTetromino {
     removeSquareGroup(){
 
         this.group.map (square => square.remove())
-        console.log(this.attribute.grid, "attribute grid")
         this.group = [];
     }
     
 
     changeDefaultPosition() {
-        if(this.position.xPosition >= this.gridWidth2) return;
-        console.log("change default position")
+    
         this.removeSquareGroup();
         let first = true;
         let size = 0;
