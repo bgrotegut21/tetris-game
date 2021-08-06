@@ -15,8 +15,8 @@ export class JTetromino {
         this.lastXPosition;
         this.currentPosition = 1;
         this.stopMovement = false;
-        this.gridWidth = 175;
-        this.gridWidth2 = 150;
+        this.gridWidth = 150;
+        this.gridWidth2 = 175;
         this.gridHeight = 450;
         this.gridHeight2 = 425;
         

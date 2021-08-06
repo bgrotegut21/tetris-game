@@ -48,14 +48,12 @@ class Game {
     }
 
     bottomWallCollision(tetro) {
-        if(!this.bottomWallCollisionOn) return;
 
         let height;
         if(tetro.currentPosition == 1) height = tetro.gridHeight;
         if(tetro.currentPosition == 2) height = tetro.gridHeight2;
      
         if (tetro.position.yPosition >= height){
-            console.log("collided with bottom collision")
             this.addToGrid(tetro);
             return true;
         } else {
@@ -66,18 +64,22 @@ class Game {
     }
 
     addToGrid(tetro){
-
-        console.log("add to grid")
+        tetro.changePlacement()
         tetro.group.map(currentTetroObject=> {
     
             currentTetroObject.playable = false;
             this.collisionPoints.push(currentTetroObject);
         })
-        tetro.group = [];
+
+        tetro.group = []
+
         this.jTetrominoPosition = new Position (75,0);
         tetro.changePosition(this.jTetrominoPosition)
         tetro.changePlacement();
         tetro.changePlacement();
+ 
+    
+     
     }
 
     
@@ -131,12 +133,16 @@ class Game {
     }
 
     squareCollision (tetroGroup){
+
         this.collisionPoints.map(squareObject => {
             tetroGroup.map(tetroObject => {
+
                 let square = squareObject.currentSquare;
                 let playerSquare = tetroObject.currentSquare;
-                if (square.playable){
-                    if(playerSquare.style.top >= square.style.top){
+                if (!squareObject.playable){
+                    console.log(playerSquare.style.top, "player square style")
+                    console.log(square.style.top, "square style")
+                    if(playerSquare.style.top <= square.style.top){
                         if (playerSquare.style.left >= square.style.left){
                             this.restrictMovement = true;
                         }
@@ -145,6 +151,7 @@ class Game {
 
             })
         })
+       // console.log(this.restrictMovement, "restrict movement")
     }
 
 
@@ -166,8 +173,6 @@ class Game {
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
             }
             if (action.key == "ArrowUp"){
-                console.log("Arrow Up")
-        
                 if (Settings.prototype.gameOn) {
                     this.bottomWallCollisionOn = false;
                     this.jTetromino.changePlacement();
@@ -191,7 +196,7 @@ class Game {
     
 
     runGame(){
-        
+        this.squareCollision(this.jTetromino.group)
         this.bottomWallCollision(this.jTetromino)
         if (!this.jTetromino.stopMovement) this.jTetromino.changePosition(this.jTetrominoPosition)
         
