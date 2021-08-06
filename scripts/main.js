@@ -142,7 +142,8 @@ class Game {
                 if (!squareObject.playable){
                     console.log(playerSquare.style.top, "player square style")
                     console.log(square.style.top, "square style")
-                    if(playerSquare.style.top <= square.style.top){
+                
+                    if(playerSquare.style.top >= square.style.top){
                         if (playerSquare.style.left >= square.style.left){
                             this.restrictMovement = true;
                         }
