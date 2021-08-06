@@ -15,10 +15,11 @@ export class JTetromino {
         this.lastXPosition;
         this.currentPosition = 1;
         this.stopMovement = false;
-        this.gridWidth = 150;
-        this.gridWidth2 = 175;
+        this.gridWidth = 175;
+        this.gridWidth2 = 150;
         this.gridHeight = 450;
         this.gridHeight2 = 425;
+        
     
 
 
@@ -45,7 +46,8 @@ export class JTetromino {
         let index = 1;
         let second = "second";
         let secondIndex = 0;
-        for (let square of this.group){
+        for (let squareObject of this.group){
+            let square = squareObject.currentSquare;
             if (second) {
                 index = 2
                 square.style.left = position.xPosition + this.sizeX * index + "px";
@@ -71,7 +73,8 @@ export class JTetromino {
         let index = 1;
         let first = true;
 
-        for (let square of this.group){
+        for (let squareObject of this.group){
+            let square = squareObject.currentSquare
             if (first){
                 square.style.left = position.xPosition + this.sizeX *index + "px";
                 square.style.top = position.yPosition + "px"
@@ -87,10 +90,11 @@ export class JTetromino {
     }
 
     changePlacement(){
-
+        
+        console.log("change placement")
         if (this.currentPosition == 1) {
 
-            if(this.position.xPosition >= this.gridWidth) return true;
+          //  if(this.position.xPosition >= this.gridWidth) return true;
             this.stopMovement = true;
             this.changeDefaultPosition()
         }
@@ -133,7 +137,8 @@ export class JTetromino {
 
 
             }
-            this.group.push(square)
+            let squareObject = {playable: true, currentSquare:square}
+            this.group.push(squareObject);
         }
         this.stopMovement = false;
         this.changePosition(this.position)
@@ -143,7 +148,7 @@ export class JTetromino {
 
     removeSquareGroup(){
 
-        this.group.map (square => square.remove())
+        this.group.map (square => square.currentSquare.remove())
         this.group = [];
     }
     
@@ -172,7 +177,8 @@ export class JTetromino {
                 this.attribute.grid.appendChild(square);
                 size += 1;
             }
-         this.group.push(square)   
+        let squareObject = {playable: true, currentSquare: square}
+         this.group.push(squareObject)   
         }
         this.stopMovement = false
         this.changePosition(this.position)
@@ -180,6 +186,11 @@ export class JTetromino {
 
 
     }
+
+  
+
+
+
 
 
 

@@ -10,6 +10,9 @@ class Game {
         this.jTetromino = new JTetromino(this.jTetrominoPosition);
         this.tetroMove = false
         this.settings = new Settings;
+        this.restrictMovement = false;
+        this.collisionPoints = []
+        this.bottomWallCollisionOn = true
     }
     
 
@@ -45,13 +48,14 @@ class Game {
     }
 
     bottomWallCollision(tetro) {
-        console.log("bottom collision")
+        if(!this.bottomWallCollisionOn) return;
 
         let height;
         if(tetro.currentPosition == 1) height = tetro.gridHeight;
         if(tetro.currentPosition == 2) height = tetro.gridHeight2;
      
         if (tetro.position.yPosition >= height){
+            console.log("collided with bottom collision")
             this.addToGrid(tetro);
             return true;
         } else {
@@ -62,14 +66,21 @@ class Game {
     }
 
     addToGrid(tetro){
+
         console.log("add to grid")
+        tetro.group.map(currentTetroObject=> {
+    
+            currentTetroObject.playable = false;
+            this.collisionPoints.push(currentTetroObject);
+        })
         tetro.group = [];
         this.jTetrominoPosition = new Position (75,0);
         tetro.changePosition(this.jTetrominoPosition)
         tetro.changePlacement();
         tetro.changePlacement();
-
     }
+
+    
 
     mouseEvent (){
         
@@ -119,24 +130,49 @@ class Game {
         
     }
 
+    squareCollision (tetroGroup){
+        this.collisionPoints.map(squareObject => {
+            tetroGroup.map(tetroObject => {
+                let square = squareObject.currentSquare;
+                let playerSquare = tetroObject.currentSquare;
+                if (square.playable){
+                    if(playerSquare.style.top >= square.style.top){
+                        if (playerSquare.style.left >= square.style.left){
+                            this.restrictMovement = true;
+                        }
+                    } else this.restrictMovement = false;
+                } else this.restrictMovement = false;
+
+            })
+        })
+    }
+
 
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
+                if (this.restrictMovement) return;
                 if (this.rightWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
+                if (this.restrictMovement) return;
                 if (this.leftWallCollision(this.jTetromino)) return;
                 if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
             }
             if (action.key == "ArrowDown"){
+                if (this.restrictMovement) return;
                 if(this.bottomWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
             }
             if (action.key == "ArrowUp"){
+                console.log("Arrow Up")
         
-                if (Settings.prototype.gameOn) this.jTetromino.changePlacement();
+                if (Settings.prototype.gameOn) {
+                    this.bottomWallCollisionOn = false;
+                    this.jTetromino.changePlacement();
+                    this.bottomWallCollisionOn = true;
+                }
             }
 
             if (action.key == "q") {
@@ -150,17 +186,13 @@ class Game {
             }
             action.preventDefault();
         })
-        window.addEventListener("keyup", action => {
-            if (action.key == "ArrowUp"){
-                this.jTetromino.stopMovement = false;
-            }
-            action.preventDefault();
-        })
+    
     }
     
 
     runGame(){
-
+        
+        this.bottomWallCollision(this.jTetromino)
         if (!this.jTetromino.stopMovement) this.jTetromino.changePosition(this.jTetrominoPosition)
         
     }
@@ -170,7 +202,7 @@ let game = new Game;
 
 game.runOnce()
 function startTimer(){
-    let timer = setInterval(function(){
+    let timer = setInterval(()=>{
         if(!Settings.prototype.gameOn) clearInterval(timer);
   
         game.runGame()
