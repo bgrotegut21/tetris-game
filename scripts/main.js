@@ -21,8 +21,7 @@ class Game {
 
         this.runKeyEvents();
         this.mouseEvent();
-        this.jTetromino.changePlacement();
-        this.jTetromino.changePlacement();
+
     
 
     }
@@ -64,21 +63,20 @@ class Game {
     }
 
     addToGrid(tetro){
-        tetro.changePlacement()
-        tetro.group.map(currentTetroObject=> {
+       // tetro.changePlacement()
+     //   tetro.group.map(currentTetroObject=> {
     
-            currentTetroObject.playable = false;
-            this.collisionPoints.push(currentTetroObject);
-        })
+          //  currentTetroObject.playable = false;
+        //    this.collisionPoints.push(currentTetroObject);
+      //  })
 
-        tetro.group = []
+       // tetro.group = []
 
-        this.jTetrominoPosition = new Position (75,0);
-        tetro.changePosition(this.jTetrominoPosition)
-        tetro.changePlacement();
-        tetro.changePlacement();
- 
-    
+        //this.jTetrominoPosition = new Position (75,0);
+      //  tetro.changePosition(this.jTetrominoPosition)
+       // tetro.changePlacement();
+       // tetro.changePlacement();
+       console.log("WIP")
      
     }
 
@@ -131,39 +129,26 @@ class Game {
       
         
     }
+    squareCollision(tetrogroup){
+        for (let squareObject of this.collisionPoints){
 
-    squareCollision (tetroGroup){
 
-        this.collisionPoints.map(squareObject => {
-            tetroGroup.map(tetroObject => {
+        }
 
-                let square = squareObject.currentSquare;
-                let playerSquare = tetroObject.currentSquare;
-                if (!squareObject.playable){
-                    console.log(playerSquare.style.top, "player square style")
-                    console.log(square.style.top, "square style")
-                
-                    if(playerSquare.style.top >= square.style.top){
-                        if (playerSquare.style.left >= square.style.left){
-                            this.restrictMovement = true;
-                        }
-                    } else this.restrictMovement = false;
-                } else this.restrictMovement = false;
-
-            })
-        })
-       // console.log(this.restrictMovement, "restrict movement")
     }
-
 
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
+                this.jTetromino.group.map(jtetro => console.log(jtetro.currentSquare.style.left ))
+                console.log("\n")
                 if (this.restrictMovement) return;
                 if (this.rightWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
+                this.jTetromino.group.map(jtetro => console.log(jtetro.currentSquare.style.left ))
+                console.log("\n")
                 if (this.restrictMovement) return;
                 if (this.leftWallCollision(this.jTetromino)) return;
                 if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
@@ -176,7 +161,7 @@ class Game {
             if (action.key == "ArrowUp"){
                 if (Settings.prototype.gameOn) {
                     this.bottomWallCollisionOn = false;
-                    this.jTetromino.changePlacement();
+                   // this.jTetromino.changePlacement();
                     this.bottomWallCollisionOn = true;
                 }
             }
