@@ -1,6 +1,7 @@
 
 import { Attribute } from "./attributes.js";
 import { Position } from "./position.js";
+import { Square } from "./square.js";
 
 export class JTetromino {
     constructor(position){
@@ -38,60 +39,25 @@ export class JTetromino {
         if (this.currentPosition == 2) this.moveFirstPosition(position);
     }
 
-
-
-    moveFirstPosition(position){
-
-        this.position = position
-        let index = 1;
-        let second = "second";
-        let secondIndex = 0;
-        for (let squareObject of this.group){
+    moveXPosition(number){
+        this.removeSquareGroup()
+        this.group.map(squareObject => {
             let square = squareObject.currentSquare;
-            if (second) {
-                index = 2
-                square.style.left = position.xPosition + this.sizeX * index + "px";
-                square.style.top = position.yPosition + this.sizeY * secondIndex + "px"
-                second = false;
-               
-
-            } else {
-                index = 1;
-                square.style.left = position.xPosition + this.sizeX * index + "px";
-                square.style.top = position.yPosition + this.sizeY * secondIndex + "px"
-                if(second == "second") second = true;
-                secondIndex += 1
-                
-            }
-        }
-
+            let newPosition = square.position.addX(number);
+            square.position = newPosition;
+            square.createSquare;
+        })
+    }
+    moveYPosition(number){
+        this.group.map(square => {
+            square.addY(number);
+        })
     }
 
-    moveDefaultPosition(position){
-
-        this.position = position
-        let index = 1;
-        let first = true;
-
-        for (let squareObject of this.group){
-            let square = squareObject.currentSquare
-            if (first){
-                square.style.left = position.xPosition + this.sizeX *index + "px";
-                square.style.top = position.yPosition + "px"
-                first = false
-            } else {
-                square.style.left = position.xPosition + this.sizeX *index + "px";
-                square.style.top = position.yPosition + this.sizeY + "px"
-                index+= 1;
-            }
-            
-         }
-
-    }
 
     changePlacement(){
         
-        console.log("change placement")
+ 
         if (this.currentPosition == 1) {
 
           //  if(this.position.xPosition >= this.gridWidth) return true;
@@ -121,7 +87,7 @@ export class JTetromino {
                 square = document.createElement("div");
                 square.setAttribute("class","square");
                 square.style.background = `url(${this.image})`
-                square.style.left = this.sizeX * sizeXposition + "px";
+
                 this.attribute.grid.appendChild(square)
                 first = false;
                 sizeXposition +=  1;
@@ -148,44 +114,50 @@ export class JTetromino {
 
     removeSquareGroup(){
 
-        this.group.map (square => square.currentSquare.remove())
-        this.group = [];
+        for(let squareObject of this.group){
+            let squareClass = squareObject.currentSquare;
+            squareClass.square.remove();
+        }
+        this.group = []
     }
     
 
     changeDefaultPosition() {
-    
         this.removeSquareGroup();
+
         let first = true;
-        let size = 0;
+        let currentPosition = new Position(0,0)
+        let addNumber = 0
         let square
-        for (let i = 0; i <4; i ++){
-            if(first){
-                square = document.createElement("div")
-                square.setAttribute("class","square");
-                square.style.background = `url(${this.image})`
-                square.style.left = this.sizeX * size + "px";
-                this.attribute.grid.appendChild(square);
+        for(let num = 0; num < 4; num ++){
+
+            if (first){
+
+                square = new Square(currentPosition, "images/blueTetromino.svg");
+                square.createSquare;
+   
+                currentPosition = currentPosition.addY(1)
+                console.log(currentPosition, "current position")
                 first = false;
-                
+                continue;
+
             } else {
-                square = document.createElement("div");
-                square.setAttribute("class","square");
-                square.style.background = `url(${this.image})`;
-                square.style.left = this.sizeX* size + "px";
-                square.style.top = this.sizeY + "px";
-                this.attribute.grid.appendChild(square);
-                size += 1;
+                currentPosition = currentPosition.addX(addNumber)
+                square = new Square(currentPosition, "images/blueTetromino.svg")
+                square.createSquare;
+                addNumber =1;
+            
             }
-        let squareObject = {playable: true, currentSquare: square}
-         this.group.push(squareObject)   
+
+            let squareObject = {currentSquare: square, playable: true};
+            this.group.push(squareObject)
         }
-        this.stopMovement = false
-        this.changePosition(this.position)
 
 
 
     }
+
+  
 
   
 

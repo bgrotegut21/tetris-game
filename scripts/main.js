@@ -2,6 +2,7 @@ import { Attribute } from "./attributes.js";
 import { Settings } from "./settings.js";
 import {JTetromino} from "./jTetro.js";
 import {Position} from "./position.js"
+import{Square} from "./square.js"
 
 class Game {
     constructor(){
@@ -21,6 +22,8 @@ class Game {
 
         this.runKeyEvents();
         this.mouseEvent();
+        this.jTetromino.changeDefaultPosition(new Position(3,0))
+        this.jTetromino.moveXPosition(3)
 
     
 
@@ -140,15 +143,12 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") {
-                this.jTetromino.group.map(jtetro => console.log(jtetro.currentSquare.style.left ))
-                console.log("\n")
                 if (this.restrictMovement) return;
                 if (this.rightWallCollision(this.jTetromino)) return;
                 if (Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
             }
             if (action.key == "ArrowLeft"){
-                this.jTetromino.group.map(jtetro => console.log(jtetro.currentSquare.style.left ))
-                console.log("\n")
+            
                 if (this.restrictMovement) return;
                 if (this.leftWallCollision(this.jTetromino)) return;
                 if(Settings.prototype.gameOn) this.jTetrominoPosition = this.jTetrominoPosition.addX(-25)
