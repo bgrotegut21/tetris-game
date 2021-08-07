@@ -11,7 +11,6 @@ export class Square {
     
 
     get createSquare(){
-
         let currentXPosition = this.position.xPosition * this.size;
         let currentYPosition = this.position.yPosition * this.size;
         this.square.style.background = `url(${this.backgroundImage})`
@@ -20,5 +19,12 @@ export class Square {
         this.square.setAttribute("class","square");
         this.attribute.grid.appendChild(this.square);
 
+    }
+
+    get moveSquare(){
+        let currentXPosition = this.position.xPosition * this.size;
+        let currentYPosition = this.position.yPosition * this.size;
+        this.square.style.left = currentXPosition + "px";
+        this.square.style.top = currentYPosition + "px";
     }
 }

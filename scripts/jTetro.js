@@ -40,12 +40,12 @@ export class JTetromino {
     }
 
     moveXPosition(number){
-        this.removeSquareGroup()
         this.group.map(squareObject => {
             let square = squareObject.currentSquare;
             let newPosition = square.position.addX(number);
+            console.log(newPosition)
             square.position = newPosition;
-            square.createSquare;
+            square.moveSquare
         })
     }
     moveYPosition(number){
@@ -128,7 +128,7 @@ export class JTetromino {
         let first = true;
         let currentPosition = new Position(0,0)
         let addNumber = 0
-        let square
+        let square;
         for(let num = 0; num < 4; num ++){
 
             if (first){
@@ -137,15 +137,15 @@ export class JTetromino {
                 square.createSquare;
    
                 currentPosition = currentPosition.addY(1)
-                console.log(currentPosition, "current position")
                 first = false;
-                continue;
+             
 
             } else {
                 currentPosition = currentPosition.addX(addNumber)
                 square = new Square(currentPosition, "images/blueTetromino.svg")
                 square.createSquare;
                 addNumber =1;
+        
             
             }
 

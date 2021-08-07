@@ -23,7 +23,9 @@ class Game {
         this.runKeyEvents();
         this.mouseEvent();
         this.jTetromino.changeDefaultPosition(new Position(3,0))
+        this.jTetromino.moveXPosition(1)
         this.jTetromino.moveXPosition(3)
+
 
     
 
@@ -184,7 +186,7 @@ class Game {
     runGame(){
         this.squareCollision(this.jTetromino.group)
         this.bottomWallCollision(this.jTetromino)
-        if (!this.jTetromino.stopMovement) this.jTetromino.changePosition(this.jTetrominoPosition)
+        this.jTetromino.moveXPosition()
         
     }
 }
