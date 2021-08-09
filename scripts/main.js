@@ -8,8 +8,7 @@ import {Collision} from "./collisions.js"
 class Game {
     constructor(){
         this.attribute = new Attribute;
-        this.jTetrominoPosition = new Position(75,0)
-        this.jTetromino = new JTetromino(this.jTetrominoPosition);
+        this.jTetromino = new JTetromino;
         this.tetroMove = false
         this.settings = new Settings;
         this.restrictMovement = false;
@@ -17,6 +16,7 @@ class Game {
         this.bottomWallCollisionOn = true
         this.positionOfJTetromino;
         this.collision = new Collision;
+        
     }
     
 
@@ -35,21 +35,16 @@ class Game {
 
 
     addToGrid(tetro){
-       // tetro.changePlacement()
-     //   tetro.group.map(currentTetroObject=> {
+        let defaultPosition = new Position(3,0);
+        tetro.group.map(currentTetroObject=> {
     
-          //  currentTetroObject.playable = false;
-        //    this.collisionPoints.push(currentTetroObject);
-      //  })
+            currentTetroObject.playable = false;
+            this.collisionPoints.push(currentTetroObject);
+        })
 
-       // tetro.group = []
-
-        //this.jTetrominoPosition = new Position (75,0);
-      //  tetro.changePosition(this.jTetrominoPosition)
-       // tetro.changePlacement();
-       // tetro.changePlacement();
-       console.log("WIP")
-     
+        tetro.group = []
+        tetro.changePlacement(defaultPosition);
+        tetro.changePlacement(defaultPosition);
     }
 
     
@@ -68,8 +63,9 @@ class Game {
             allowtoMove = true
         });
         window.addEventListener("click",() => {
-            if(!Settings.prototype.gameOn) return;
-            this.jTetromino.changePlacement(this.jTetromino.group[0].currentSquare.position);
+            if (Settings.prototype.gameOn) {
+               this.jTetromino.changePlacement(this.jTetromino.group[0].currentSquare.position);
+            }
         })
         window.addEventListener("touchmove",action => {
    
@@ -77,16 +73,20 @@ class Game {
             this.jTetromino.stopMovement = false
             let touchEvent = action.changedTouches[0];
             if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
-                this.jTetrominoPosition = this.jTetrominoPosition.addX(25);
+                if(this.collision.wallCollision(this.jTetromino.group,"right")) return;
+                if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(1);
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
 
             if (Math.floor(touchEvent.clientX) < recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
-                this.jTetrominoPosition = this.jTetrominoPosition.addX(-25);
+
+                if(this.collision.wallCollision(this.jTetromino.group,"left")) return;
+                if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(-1);
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
             if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %10 == 0 ){
-                this.jTetrominoPosition = this.jTetrominoPosition.addY(25)
+                if(this.collision.wallCollision(this.jTetromino.group,"bottom")) return;
+                if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.jTetromino.moveYPosition(1);
                 yRecordedPosition = Math.floor(touchEvent.clientY);
             }
     
@@ -107,26 +107,22 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") { 
-                console.log(this.collision.wallCollision(this.jTetromino.group,"right"))
+                console.log(this.jTetromino.currentPosition, "currnet position")
+                if(this.collision.wallCollision(this.jTetromino.group,"right",this.jTetromino.currentPosition)) return;
+                if(this.collision.squareCollision(this.jTetromino.group, this.collisionPoints,"right")) return;
                 if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(1);
             }
             if (action.key == "ArrowLeft"){
-            
-               // if (this.restrictMovement) return;
-               // if (this.leftWallCollision(this.jTetromino)) return;
-
+                if(this.collision.wallCollision(this.jTetromino.group,"left")) return;
                 if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(-1);
             }
             if (action.key == "ArrowDown"){
-               // if (this.restrictMovement) return;
-               // if(this.bottomWallCollision(this.jTetromino)) return;
+                if(this.collision.wallCollision(this.jTetromino.group,"bottom")) return;
                 if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.jTetromino.moveYPosition(1);
             }
             if (action.key == "ArrowUp"){
                 if (Settings.prototype.gameOn) {
-                    this.bottomWallCollisionOn = false;
                    this.jTetromino.changePlacement(this.jTetromino.group[0].currentSquare.position);
-                    this.bottomWallCollisionOn = true;
                 }
             }
 
@@ -146,8 +142,8 @@ class Game {
     
 
     runGame(){
+        if(this.collision.wallCollision(this.jTetromino.group, "bottom")) this.addToGrid(this.jTetromino)
     
-
 
         
     }
@@ -159,7 +155,6 @@ game.runOnce()
 function startTimer(){
     let timer = setInterval(()=>{
         if(!Settings.prototype.gameOn) clearInterval(timer);
-  
         game.runGame()
     },10)
 }

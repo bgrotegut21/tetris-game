@@ -6,22 +6,14 @@ import { Collision } from "./collisions.js";
 
 
 export class JTetromino {
-    constructor(position){
+    constructor(){
         this.attribute = new Attribute;
         this.image = "images/blueTetromino.svg"
         this.sizeX = 25;
         this.sizeY  = 25;
-        this.position = position;
         this.squres = 4;
         this.group = []
-        this.moveTetro = true;
-        this.lastXPosition;
         this.currentPosition = 1;
-        this.stopMovement = false;
-        this.gridWidth = 150;
-        this.gridWidth2 = 175;
-        this.gridHeight = 450;
-        this.gridHeight2 = 425;
         this.collision = new Collision;
         
     
@@ -36,11 +28,6 @@ export class JTetromino {
 // |_    -|        |_      --|
 // 1     2         3        4
 
-    changePosition (position){
-        if (this.stopMovement) return;
-        if(this.currentPosition == 1) this.moveDefaultPosition(position);
-        if (this.currentPosition == 2) this.moveFirstPosition(position);
-    }
 
     moveXPosition(number){
         this.group.map(squareObject => {
