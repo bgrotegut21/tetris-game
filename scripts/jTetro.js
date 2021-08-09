@@ -2,6 +2,8 @@
 import { Attribute } from "./attributes.js";
 import { Position } from "./position.js";
 import { Square } from "./square.js";
+import { Collision } from "./collisions.js";
+
 
 export class JTetromino {
     constructor(position){
@@ -20,6 +22,7 @@ export class JTetromino {
         this.gridWidth2 = 175;
         this.gridHeight = 450;
         this.gridHeight2 = 425;
+        this.collision = new Collision;
         
     
 
@@ -42,32 +45,34 @@ export class JTetromino {
     moveXPosition(number){
         this.group.map(squareObject => {
             let square = squareObject.currentSquare;
-            let newPosition = square.position.addX(number);
-            console.log(newPosition)
-            square.position = newPosition;
+
+            square.position = square.position.addX(number)
             square.moveSquare
+            
         })
+
     }
+
     moveYPosition(number){
-        this.group.map(square => {
-            square.addY(number);
+        this.group.map(squareObject => {
+            let square = squareObject.currentSquare;
+
+            square.position = square.position.addY(number)
+            square.moveSquare
+            
         })
+
     }
 
 
-    changePlacement(){
+    changePlacement(position){
         
  
         if (this.currentPosition == 1) {
-
-          //  if(this.position.xPosition >= this.gridWidth) return true;
-            this.stopMovement = true;
-            this.changeDefaultPosition()
+            this.changeDefaultPosition(position)
         }
         if (this.currentPosition == 2){
-            if (this.position.xPosition >= this.gridWidth2) return;
-            this.stopMovement = true;
-            this.changeFirstPosition();
+            this.changeFirstPosition(position);
         }
         if (this.currentPosition == 2) this.currentPosition = 1;
         else this.currentPosition += 1;
@@ -76,38 +81,37 @@ export class JTetromino {
 
     }
 
-    changeFirstPosition(){
+    changeFirstPosition(position){
         this.removeSquareGroup()
         let first = true;
-        let sizeXposition = 0;
-        let sizeYPosition = 0;
+        let currentPosition = position;
         let square;
-        for (let i = 0; i <4; i++){
-            if (first){
-                square = document.createElement("div");
-                square.setAttribute("class","square");
-                square.style.background = `url(${this.image})`
+        let xIndex = -1
+        let yIndex = 0;
 
-                this.attribute.grid.appendChild(square)
+        for (let num = 0; num <4; num ++){
+            if (first){
+   
+                square = new Square(currentPosition,"images/blueTetromino.svg");
+                square.createSquare;
+                currentPosition = currentPosition.addX(1)
+
                 first = false;
-                sizeXposition +=  1;
             } else {
-                square = document.createElement("div");
-                square.setAttribute("class","square");
-                square.style.background = `url(${this.image})`
-                square.style.left = this.sizeX * sizeXposition + "px";
-                sizeXposition = 0;
-                square.style.top = this.sizeY * sizeYPosition + "px";
-                sizeYPosition +=1;
-                this.attribute.grid.appendChild(square)
+
+                currentPosition = currentPosition.addY(yIndex)
+                square = new Square(currentPosition,"images/blueTetromino.svg");
+                square.createSquare;
+                currentPosition = currentPosition.addX(xIndex)
+                yIndex = 1;
+                xIndex = 0
 
 
             }
-            let squareObject = {playable: true, currentSquare:square}
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
         }
-        this.stopMovement = false;
-        this.changePosition(this.position)
+``
 
     }
 
@@ -122,11 +126,11 @@ export class JTetromino {
     }
     
 
-    changeDefaultPosition() {
+    changeDefaultPosition(position) {
         this.removeSquareGroup();
 
         let first = true;
-        let currentPosition = new Position(0,0)
+        let currentPosition = position
         let addNumber = 0
         let square;
         for(let num = 0; num < 4; num ++){
@@ -135,7 +139,7 @@ export class JTetromino {
 
                 square = new Square(currentPosition, "images/blueTetromino.svg");
                 square.createSquare;
-   
+                
                 currentPosition = currentPosition.addY(1)
                 first = false;
              
