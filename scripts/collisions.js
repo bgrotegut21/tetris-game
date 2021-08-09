@@ -1,6 +1,9 @@
 export class Collision {
+
     wallCollision(tetrogroup,direction){
         let restrictMovement = false;
+    
+
         for (let squareObject of tetrogroup){
             let square = squareObject.currentSquare;
             if (direction == "right"){
@@ -12,6 +15,16 @@ export class Collision {
                     restrictMovement = false;
                 }
             }
+            if (direction == "right2"){
+
+                if (square.position.xPosition > 9){
+                    restrictMovement = true
+                    break
+                } else {
+                    restrictMovement = false;
+                }
+            }
+            
             if (direction == "left"){
                 if (square.position.xPosition < 1){
                     restrictMovement = true;
@@ -72,7 +85,7 @@ export class Collision {
             let tetroSquare = tetroObject.currentSquare;
             for (let squareObject of collisionPoints){
                 let square = squareObject.currentSquare;
-                if (tetroSquare.position.yPosition == square.position.yPosition -1){
+                if (tetroSquare.position.yPosition == square.position.yPosition ){
 
                     
                     if (direction == "right") {

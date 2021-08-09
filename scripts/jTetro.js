@@ -98,7 +98,9 @@ export class JTetromino {
             let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
         }
-``
+       
+
+
 
     }
 
@@ -114,8 +116,9 @@ export class JTetromino {
     
 
     changeDefaultPosition(position) {
-        this.removeSquareGroup();
 
+        this.removeSquareGroup();
+       
         let first = true;
         let currentPosition = position
         let addNumber = 0
@@ -143,6 +146,8 @@ export class JTetromino {
             let squareObject = {currentSquare: square, playable: true};
             this.group.push(squareObject)
         }
+        if(this.collision.wallCollision(this.group,"right2")) this.changeFirstPosition(position)
+      
 
 
 
