@@ -36,36 +36,62 @@ export class Collision {
         return restrictMovement;
     }
 
-    rightCollision(tetroSquare,square,position){
-
-
-        console.log(position, "position")
+    rightCollision(tetroSquare,square){
         let restrictMovement = false;
-        let difference;
-        if (position == 1) difference = 4;
-        if (position == 2) difference = 2
-
-        if (tetroSquare.position.xPosition +difference > square.position.xPosition  ){
-                restrictMovement = true;
-        }
+        if (tetroSquare.position.xPosition == square.position.xPosition -1   ) restrictMovement = true;
         return restrictMovement;
     }
 
+    leftCollision(tetroSquare,square){
+        let restrictMovement = false;
+        if (tetroSquare.position.xPosition == square.position.xPosition +1   ) restrictMovement = true;
+        return restrictMovement;
+    }
 
-    squareCollision(tetrogroup, collisionPoints,direction,position){
-
-        let restrictMovement = false
-        for (let tetroObject of tetrogroup){
+    bototmCollision(tetro, collisionPoints){
+        for (let tetroObject of tetro.group){
             let tetroSquare = tetroObject.currentSquare;
             for (let squareObject of collisionPoints){
                 let square = squareObject.currentSquare;
-                if (tetroSquare.position.yPosition > square.position.yPosition -2){
-                    if (direction == "right") restrictMovement =  this.rightCollision(tetroSquare,square,position);
+                if (tetroSquare.position.yPosition == square.position.yPosition -1){
+                    if(tetroSquare.position.xPosition == square.position.xPosition ){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+
+    
+
+    squareCollision(tetro, collisionPoints,direction){
+
+        let restrictMovement = false
+        for (let tetroObject of tetro.group){
+            let tetroSquare = tetroObject.currentSquare;
+            for (let squareObject of collisionPoints){
+                let square = squareObject.currentSquare;
+                if (tetroSquare.position.yPosition == square.position.yPosition -1){
+
+                    
+                    if (direction == "right") {
+                        if (this.rightCollision(tetroSquare,square)){
+                            restrictMovement = true;
+                            break
+                        }
+                    }
+                    if (direction == "left"){
+                        if (this.leftCollision(tetroSquare,square)){
+                            restrictMovement = true;
+                            break;
+                        }
+                    }
+        
                 }
                 
             }
         }
         return restrictMovement;
-    }
-
+    } 
 }

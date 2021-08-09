@@ -16,6 +16,7 @@ class Game {
         this.bottomWallCollisionOn = true
         this.positionOfJTetromino;
         this.collision = new Collision;
+        this.restrictMovement = false;
         
     }
     
@@ -35,6 +36,8 @@ class Game {
 
 
     addToGrid(tetro){
+        
+        tetro.group.map(tetroObject => console.log(tetroObject.currentSquare.position.xPosition, "add to grid x position"))
         let defaultPosition = new Position(3,0);
         tetro.group.map(currentTetroObject=> {
     
@@ -107,13 +110,16 @@ class Game {
     runKeyEvents(){
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") { 
-                console.log(this.jTetromino.currentPosition, "currnet position")
+                this.jTetromino.group.map(tetro => console.log(tetro.currentSquare.position.xPosition, "tetro x position"))
+
                 if(this.collision.wallCollision(this.jTetromino.group,"right",this.jTetromino.currentPosition)) return;
-                if(this.collision.squareCollision(this.jTetromino.group, this.collisionPoints,"right")) return;
+                if(this.collision.squareCollision(this.jTetromino, this.collisionPoints,"right")) return;
                 if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(1);
             }
             if (action.key == "ArrowLeft"){
+                this.jTetromino.group.map(tetro => console.log(tetro.currentSquare.position.xPosition, "tetro x position"))
                 if(this.collision.wallCollision(this.jTetromino.group,"left")) return;
+                if(this.collision.squareCollision(this.jTetromino, this.collisionPoints,"left")) return;
                 if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(-1);
             }
             if (action.key == "ArrowDown"){
@@ -143,7 +149,7 @@ class Game {
 
     runGame(){
         if(this.collision.wallCollision(this.jTetromino.group, "bottom")) this.addToGrid(this.jTetromino)
-    
+        if (this.collision.bototmCollision(this.jTetromino,this.collisionPoints)) this.addToGrid(this.jTetromino)
 
         
     }
