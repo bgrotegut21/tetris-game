@@ -37,14 +37,37 @@ class Game {
 
     checkRows (collisionPoints){
         let numberIndex = 0
-        while (numberIndex != 9){
+        while (numberIndex != 20){
             
-            if (typeof this.row[String(numberIndex)] == ""||this.row[String(numberIndex)].length == 10) this.row[String(numberIndex)] = [];
-            let row = collisionPoints.filter(squareObject => squareObject.currentSquare.position.xPosition == numberIndex);
+            if (typeof this.row[String(numberIndex)] != "undefined" && this.row[String(numberIndex)].length == 10){
+                this.row[String(numberIndex)].map(squareObject=> {
+                    let square = squareObject.currentSquare.square;
+                    square.remove();
+
+                })
+                this.bringDownBlocks(numberIndex)
+                this.deleteCollisionPoints(numberIndex)
+            }
+            let row = collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition == numberIndex);
             this.row[String(numberIndex)] = row;
             numberIndex += 1;
         }
         console.log(this.row, "row")
+    }
+
+    bringDownBlocks(number){
+        let numberIndex = 0
+        while (numberIndex != number){
+            let collisionPointPosition = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
+            collisionPointPosition.map(squareObject => {
+                let square = squareObject.currentSquare;
+                console.log(square, "squareness")
+                square.position = square.position.addX(1);
+                square.moveSquare;
+
+            })
+            
+        }
     }
 
 
@@ -159,12 +182,16 @@ class Game {
         })
     
     }
+    deleteCollisionPoints (number){
+        let newCollisionPoints = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
+        this.collisionPoints = newCollisionPoints;
+    }
     
 
     runGame(){
         if(this.collision.wallCollision(this.jTetromino.group, "bottom")) this.addToGrid(this.jTetromino)
         if (this.collision.bototmCollision(this.jTetromino,this.collisionPoints)) this.addToGrid(this.jTetromino)
-        this.checkRows(this.collisionPoints)
+        this.checkRows(this.collisionPoints);
         
     }
 }
