@@ -35,6 +35,12 @@ class Game {
 
     }
 
+    deleteCollisionPoints (number){
+        let newCollisionPoints = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
+        this.collisionPoints = newCollisionPoints;
+        console.log(this.row)
+    }
+
     checkRows (collisionPoints){
         let numberIndex = 0
         while (numberIndex != 20){
@@ -45,34 +51,58 @@ class Game {
                     square.remove();
 
                 })
-                this.bringDownBlocks(numberIndex)
-                this.deleteCollisionPoints(numberIndex)
+                this.row[String(numberIndex)] = ["deletedRow"];
+                this.deleteCollisionPoints(numberIndex);
+
+                this.bringDownBlocks(this.row);
+
             }
             let row = collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition == numberIndex);
             this.row[String(numberIndex)] = row;
             numberIndex += 1;
         }
-        console.log(this.row, "row")
+        
     }
 
-    bringDownBlocks(number){
-        let numberIndex = 0
-        while (numberIndex != number){
-            let collisionPointPosition = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
-            collisionPointPosition.map(squareObject => {
-                let square = squareObject.currentSquare;
-                console.log(square, "squareness")
-                square.position = square.position.addX(1);
-                square.moveSquare;
 
-            })
-            
+    bringDownBlocks(row){
+   
+        let newRow = row;
+        let newRowKeys = Object.keys(newRow);
+        var highestLength;
+        var lowestLength;
+
+        for (let number of newRowKeys){
+            if(newRow[number].length != 0){
+                highestLength = number;
+                break
+            }
         }
+        console.log(highestLength, "highestLength")
+        console.log("greater than")
+        let filteredRow = newRowKeys.filter(value => value >= highestLength);
+        console.log(filteredRow, "filtered row")
+        console.log("SEATTLE")
+
+        for (let number of filteredRow){
+            if (newRow[number].length == 0){
+                lowestLength = number -1; 
+                break
+            }
+        }
+
+        let fallingRow = filteredRow.filter(value => value > lowestLength);
+        console.log(fallingRow, "falling row")
+
+      
+        
+        
     }
+   
 
 
     addToGrid(tetro){
-        
+
         tetro.group.map(tetroObject => console.log(tetroObject.currentSquare.position.xPosition, "add to grid x position"))
         let defaultPosition = new Position(3,0);
         tetro.group.map(currentTetroObject=> {
@@ -84,6 +114,7 @@ class Game {
         tetro.group = []
         tetro.changePlacement(defaultPosition);
         tetro.changePlacement(defaultPosition);
+
     }
 
     
@@ -147,7 +178,7 @@ class Game {
         window.addEventListener("keydown", action => {
             if (action.key == "ArrowRight") { 
                 //this.jTetromino.group.map(tetro => console.log(tetro.currentSquare.position.xPosition, "tetro x position"))
-
+                console.log(this.row)
                 if(this.collision.wallCollision(this.jTetromino.group,"right",this.jTetromino.currentPosition)) return;
                 if(this.collision.squareCollision(this.jTetromino, this.collisionPoints,"right")) return;
                 if (Settings.prototype.gameOn) this.jTetromino.moveXPosition(1);
@@ -182,16 +213,14 @@ class Game {
         })
     
     }
-    deleteCollisionPoints (number){
-        let newCollisionPoints = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
-        this.collisionPoints = newCollisionPoints;
-    }
+
     
 
     runGame(){
         if(this.collision.wallCollision(this.jTetromino.group, "bottom")) this.addToGrid(this.jTetromino)
         if (this.collision.bototmCollision(this.jTetromino,this.collisionPoints)) this.addToGrid(this.jTetromino)
         this.checkRows(this.collisionPoints);
+
         
     }
 }
