@@ -212,7 +212,8 @@ class Game {
             }
             if (action.key == "ArrowUp"){
                 if (Settings.prototype.gameOn) {
-                   this.jTetromino.changePlacement(this.jTetromino.group[0].currentSquare.position);
+                    this.jTetromino.changePlacement(this.jTetromino.group[0].currentSquare.position)
+                    
                 }
             }
 
@@ -226,9 +227,9 @@ class Game {
                 startTimer();
             }
             action.preventDefault();
-        })
+        }
+        )}
     
-    }
 
     
 

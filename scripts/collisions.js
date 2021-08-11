@@ -9,6 +9,7 @@ export class Collision {
             if (direction == "right"){
 
                 if (square.position.xPosition > 8){
+                    console.log("collision")
                     restrictMovement = true
                     break
                 } else {
