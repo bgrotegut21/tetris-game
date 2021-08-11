@@ -28,7 +28,7 @@ class Game {
         this.runKeyEvents();
         this.mouseEvent();
         this.jTetromino.changePlacement(new Position(3,0))
-        this.jTetromino.changePlacement(new Position(3,0))
+
 
 
     
@@ -45,15 +45,16 @@ class Game {
         let numberIndex = 0
         while (numberIndex != 20){
             
-            if (typeof this.row[String(numberIndex)] != "undefined" && this.row[String(numberIndex)].length == 10){
+            if (typeof this.row[String(numberIndex)] != "undefined" && this.row[String(numberIndex)].length >= 10){
                 this.row[String(numberIndex)].map(squareObject=> {
                     let square = squareObject.currentSquare.square;
                     square.remove();
 
                 })
-                this.row[String(numberIndex)] = ["deletedRow"];
+                
                 this.deleteCollisionPoints(numberIndex);
-
+                let row = collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition == numberIndex);
+                this.row[String(numberIndex)] = row;
                 this.bringDownBlocks(this.row);
 
             }
@@ -66,11 +67,14 @@ class Game {
 
 
     bringDownBlocks(row){
+        console.log("bring down blocks")
    
         let newRow = row;
         let newRowKeys = Object.keys(newRow);
-        var highestLength;
-        var lowestLength;
+        let highestLength;
+        let lowestLength;
+        let filteredRow = [];
+        let fallingRow = []
 
         for (let number of newRowKeys){
             if(newRow[number].length != 0){
@@ -78,24 +82,36 @@ class Game {
                 break
             }
         }
-        console.log(highestLength, "highestLength")
-        console.log("greater than")
-        let filteredRow = newRowKeys.filter(value => value >= highestLength);
-        console.log(filteredRow, "filtered row")
-        console.log("SEATTLE")
 
-        for (let number of filteredRow){
-            if (newRow[number].length == 0){
-                lowestLength = number -1; 
-                break
-            }
+       for (let value of newRowKeys){
+           if (value >= Number(highestLength)) filteredRow.push(value);
+       }
+
+    
+       for (let number of filteredRow){
+
+           if (newRow[number].length == 0){
+               lowestLength = number;
+               break
+           }
+       }
+        for (let value of filteredRow){
+            if (value < Number(lowestLength)) fallingRow.push(value);
         }
+        console.log(fallingRow)
+        this.dropBlocks(fallingRow, newRow);
+    }
 
-        let fallingRow = filteredRow.filter(value => value > lowestLength);
-        console.log(fallingRow, "falling row")
-
-      
-        
+    dropBlocks(fallingRow,row){
+        console.log(fallingRow, "a falling row")
+  
+        fallingRow.map(key => {
+            row[key].map(squareObject => {
+                let square = squareObject.currentSquare;
+                square.position = square.position.addY(1)
+                square.moveSquare;
+            })
+        })
         
     }
    
@@ -232,5 +248,5 @@ function startTimer(){
     let timer = setInterval(()=>{
         if(!Settings.prototype.gameOn) clearInterval(timer);
         game.runGame()
-    },10)
+    },500)
 }

@@ -43,14 +43,21 @@ export class JTetromino {
 
 
     changePlacement(position){
-        if (this.currentPosition == 1) {
-            this.changeDefaultPosition(position)
-        }
-        if (this.currentPosition == 2){
-            this.changeFirstPosition(position);
-        }
-        if (this.currentPosition == 2) this.currentPosition = 1;
+        if (this.currentPosition == 1) this.changeDefaultPosition(position)
+        if (this.currentPosition == 2) this.changeFirstPosition(position);
+        if (this.currentPosition == 3) this.changeSecondPosition(position);
+
+        if (this.currentPosition == 3) this.currentPosition = 1;
         else this.currentPosition += 1;
+    }
+
+    changeThirdPosition(position){
+        let currentPosition;
+        let last;
+
+        for (let num =0; num <4; num ++){
+            square = new Square(createPosition, "images/")
+        }
     }
 
     changeFirstPosition(position){
@@ -116,6 +123,9 @@ export class JTetromino {
             let squareObject = {currentSquare: square, playable: true};
             this.group.push(squareObject)
         }
-        if(this.collision.wallCollision(this.group,"right2")) this.changeFirstPosition(position)
+        if(this.collision.wallCollision(this.group,"right2")) {
+            this.changeFirstPosition(position);
+            this.currentPOsition = 1;
+        }
     }
 }
