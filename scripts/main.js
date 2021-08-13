@@ -3,6 +3,7 @@ import { Settings } from "./settings.js";
 
 import {JTetromino} from "./jTetro.js";
 import {OTetromino } from "./oTetro.js";
+import {ZTetromino} from "./zTetro.js";
 
 import {Position} from "./position.js"
 import{Square} from "./square.js"
@@ -17,7 +18,7 @@ class Game {
         this.jTetromino = new JTetromino;
         this.oTetromino = new OTetromino;
 
-        this.tetro = this.oTetromino;
+        this.tetro = new ZTetromino;
 
         this.tetroMove = false
         this.settings = new Settings;
@@ -45,7 +46,10 @@ class Game {
 
         this.runKeyEvents();
         this.mouseEvent();
-        this.tetro.changePlacement(new Position(3,0))
+        this.tetro.changeDefaultPosition(new Position(3,0))
+        this.tetro.currentPosition = 1;
+
+
         //this.spawnDummyItem.createTwoRowTetro()
 
 
