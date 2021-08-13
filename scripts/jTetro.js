@@ -3,6 +3,7 @@ import { Attribute } from "./attributes.js";
 import { Position } from "./position.js";
 import { Square } from "./square.js";
 import { Collision } from "./collisions.js";
+import { TetroTask } from "./tetroTask.js";
 
 //Different positions
 // |_    -|        |_      --|
@@ -17,35 +18,16 @@ export class JTetromino {
         this.group = []
         this.currentPosition = 1;
         this.collision = new Collision;
-        let changePositions = true
+        this.task = new TetroTask;
+    
 
     }
 
-    moveXPosition(number){
-        this.group.map(squareObject => {
-            let square = squareObject.currentSquare;
 
-            square.position = square.position.addX(number)
-            square.moveSquare
-            
-        })
-
-    }
-
-    moveYPosition(number){
-        this.group.map(squareObject => {
-            let square = squareObject.currentSquare;
-
-            square.position = square.position.addY(number)
-            square.moveSquare
-            
-        })
-
-    }
 
 
     changePlacement(position){
-        console.log(this.currentPosition, "current positions")
+      //  console.log(this.currentPosition, "current positions")
         if (this.currentPosition == 4) this.currentPosition = 1;
         else this.currentPosition += 1;
 
@@ -71,7 +53,8 @@ export class JTetromino {
     }
 
     changeSecondPosition(position){
-        this.removeSquareGroup()
+        this.task.emptySquareObjects(this.group);
+        this.group = []
         let currentPosition = position;
         let addNumber = 1
         let square;
@@ -94,8 +77,8 @@ export class JTetromino {
             let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
         }
-        if (this.collision.wallCollision(this.group,"left")){
-            console.log("adding stuff")
+        if (this.collision.wallCollision(this.group,"left2")){
+           // console.log("adding stuff")
             this.changeFirstPosition(position.addX(-1));
             this.currentPosition = 2;
         }
@@ -104,8 +87,9 @@ export class JTetromino {
     }
 
     changeThridPosition(position){
-        console.log(position, "current position")
-        this.removeSquareGroup();
+        //console.log(position, "current position")
+        this.task.emptySquareObjects(this.group);
+        this.group = []
         let currentPosition = position;
         let addNumber = 1
         let square;
@@ -132,7 +116,8 @@ export class JTetromino {
 
     changeFirstPosition(position){
 
-        this.removeSquareGroup()
+        this.task.emptySquareObjects(this.group);
+        this.group = []
         let first = true;
         let currentPosition = position;
 
@@ -165,19 +150,13 @@ export class JTetromino {
     }
 
 
-    removeSquareGroup(){
-        for(let squareObject of this.group){
-            let squareClass = squareObject.currentSquare;
-            squareClass.square.remove();
-        }
-        this.group = []
-    }
-
     
 
     changeDefaultPosition(position) {
 
-        this.removeSquareGroup();
+        this.task.emptySquareObjects(this.group);
+        this.group = []
+        
        
         let first = true;
         let currentPosition = position
@@ -205,7 +184,7 @@ export class JTetromino {
             this.group.push(squareObject)
         }
         if (this.collision.wallCollision(this.group,"right2")){
-            console.log("adding stuff")
+           // console.log("adding stuff")
             this.changeThridPosition(position.addX(-1));
             this.currentPosition = 4;
         }

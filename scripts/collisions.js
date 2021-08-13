@@ -35,6 +35,15 @@ export class Collision {
                 }
             } 
 
+            if (direction == "left2"){
+                if (square.position.xPosition < 0){
+                    restrictMovement = true;
+                    break
+                } else {
+                    restrictMovement = false;
+                }
+            } 
+
 
             if (direction == "bottom"){
                 if (square.position.yPosition > 18){
