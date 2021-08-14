@@ -17,6 +17,8 @@ export class OTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
+        this.type = "oTetromino"
+        this.restictPosition = false;
 
     }
 

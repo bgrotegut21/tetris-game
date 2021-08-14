@@ -71,18 +71,22 @@ export class Collision {
         return restrictMovement;
     }
 
-    bototmCollision(tetro, collisionPoints){
-        for (let tetroObject of tetro.group){
-            let tetroSquare = tetroObject.currentSquare;
-            for (let squareObject of collisionPoints){
-                let square = squareObject.currentSquare;
-                if (tetroSquare.position.yPosition == square.position.yPosition -1){
-                    if(tetroSquare.position.xPosition == square.position.xPosition ){
-                        return true;
-                    }
-                }
-            }
-        }
+
+
+    bototmCollision(tetro,xRows){
+       let xRowKeys = Object.keys(xRows);
+       let heights = []
+
+       for(let key of xRowKeys){
+           let keyHeights =[]
+           for (let squareObject of xRows[key]){
+               let square = squareObject.currentSquare;
+               keyHeights.push(square.position.yPosition);
+           }
+           let value = Math.max(...keyHeights);
+           heights.push(value);
+       }
+
     }
 
 
@@ -99,15 +103,23 @@ export class Collision {
 
                     
                     if (direction == "right") {
+
                         if (this.rightCollision(tetroSquare,square)){
+                            
                             restrictMovement = true;
                             break
+                        } else {
+                            tetro.restrictPosition = false;
                         }
                     }
                     if (direction == "left"){
                         if (this.leftCollision(tetroSquare,square)){
+                            console.log("left collision")
+                            this.checkType(tetro)
                             restrictMovement = true;
                             break;
+                        } else {
+                            tetro.restrictPosition = false;
                         }
                     }
         

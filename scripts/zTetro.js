@@ -18,6 +18,8 @@ export class ZTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
+        this.type = "zTetromino"
+        this.restictPosition = false;
     
 
     }
@@ -27,7 +29,8 @@ export class ZTetromino {
 
     changePlacement(position){
       //  console.log(this.currentPosition, "current positions")
-        if (this.currentPosition == 3) this.currentPosition = 1;
+        if(this.restictPosition) return true;
+        if (this.currentPosition == 2) this.currentPosition = 1;
         else this.currentPosition += 1;
 
         if (this.currentPosition == 1){
@@ -45,33 +48,7 @@ export class ZTetromino {
         }
     }
 
-    changeSecondPosition(position){
-        this.task.emptySquareObjects(this.group);
-        this.group = [];
-        let square;
-        let currentPosition = position;
 
-        currentPosition = currentPosition.addX(1);
-
-        for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition, "images/redTetromino.svg");
-            currentPosition = currentPosition.addY(1);
-            let squareObject = {currentSquare: square, playable:true}
-            this.group.push(squareObject);
-        }
-
-        currentPosition = currentPosition.addX(-1);
-        currentPosition = currentPosition.addX(-1);
-
-        for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition, "images/redTetromino.svg");
-            currentPosition = currentPosition.addY(1);
-            let squareObject = {currentSquare: square, playable:true}
-            this.group.push(squareObject);
-        }
-
-
-    }
 
 
     changeFirstPosition(position){
@@ -80,7 +57,7 @@ export class ZTetromino {
         let square;
         let currentPosition = position;
 
-        currentPosition = currentPosition.addX(1);
+        currentPosition = currentPosition.addX(2);
         
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,"images/redTetromino.svg");
@@ -90,7 +67,7 @@ export class ZTetromino {
             this.group.push(squareObject);
         }  
 
-        currentPosition = currentPosition.addX(1);
+        currentPosition = currentPosition.addX(-1);
         currentPosition = currentPosition.addY(-1);
 
 
@@ -114,6 +91,7 @@ export class ZTetromino {
         let square;
         let currentPosition = position;
 
+        currentPosition = currentPosition.addX(-2)
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,"images/redTetromino.svg");
             currentPosition = currentPosition.addX(1);
