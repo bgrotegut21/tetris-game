@@ -281,19 +281,7 @@ class Game {
             if (this.checkJTetro(tetro)) return true;
         }
     }
-    updateXRows(){
-        let xRows = {0:[]}
-        let index = 0;
-        while (index != 20){
-            let currentXRow = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.xPostion == index);
-            xRows[String(index)] = currentXRow;
-            index++;
-            
-        }
-
-        return xRows;
-
-    }
+  
 
     runKeyEvents(){
         window.addEventListener("keydown", action => {
@@ -355,8 +343,8 @@ class Game {
     runGame(){
         if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
         this.updateStats();
-        this.xRows = this.updateXRows();
-        if (this.collision.bototmCollision(this.tetro,this.xRows)) this.addToGrid(this.tetro)
+
+        if (this.collision.bototmCollision(this.tetro,this.collisionPoints)) this.addToGrid(this.tetro)
         this.checkRows(this.collisionPoints);
       //  if (this.canDrop){
         //    this.canDrop = false;
