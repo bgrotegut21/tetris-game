@@ -19,7 +19,7 @@ class Game {
         this.oTetromino = new OTetromino;
         this.zTetromino = new ZTetromino;
 
-        this.tetro = this.oTetromino;
+        this.tetro = this.jTetromino;
         this.tetroMove = false
         this.settings = new Settings;
 
@@ -30,7 +30,8 @@ class Game {
         this.positionOfJTetromino;
         this.collision = new Collision;
         this.restrictMovement = false;
-        this.row ={0:[]}
+        this.row ={0:[]};
+        this.yRows;
         this.xRows;
 
         this.spawnDummyItem = new DummyItems;
@@ -39,7 +40,7 @@ class Game {
         this.lines = this.attribute.lineNumber;
 
         this.differentTetromino = false;
-        
+
         this.currentScore =0;
         this.currentLine = 0;
     }
@@ -228,7 +229,7 @@ class Game {
             let touchEvent = action.changedTouches[0];
             if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
                 if(this.collision.wallCollision(this.tetro.group,"right")) return;
-                if (Settings.prototype.gameOn) this.tetro.moveXPosition(1);
+                if (Settings.prototype.gameOn) this.moveXPosition(1);
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
 
@@ -325,6 +326,7 @@ class Game {
                 startTimer();
             }
             if(action.key == "p") {
+                console.log("unpause")
                 Settings.prototype.gameOn = true
                 startTimer();
             }
@@ -338,14 +340,46 @@ class Game {
         }
     
 
-    
+        
+    createYRows(){
+        let index = 0;
+        let rows = {0:[]}
+        while (index != 20){
+            let filteredYRow = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition == index);
+            rows[String(index)] = filteredYRow;
+            if (filteredYRow.length == 0) rows[String(index)] = ["empty"];
+            index++;
 
+        }
+
+        return rows;
+    }
+
+    createXRows(){
+        let index = 0;
+        let rows = {0:[]}
+        while (index != 10){
+            let filteredYRow = this.collisionPoints.filter(squareObject => squareObject.currentSquare.position.xPosition == index);
+            rows[String(index)] = filteredYRow;
+            index++;
+
+        }
+     
+        return rows;
+
+    }
+    
     runGame(){
         if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
         this.updateStats();
-
+    
         if (this.collision.bototmCollision(this.tetro,this.collisionPoints)) this.addToGrid(this.tetro)
-        this.checkRows(this.collisionPoints);
+
+        this.yRows = this.createYRows();
+        this.xRows = this.createXRows();
+        this.checkRows();
+
+        this.collision.levelCollision(this.tetro,this.xRows);
       //  if (this.canDrop){
         //    this.canDrop = false;
           //  this.addToGrid(this.spawnDummyItem)
