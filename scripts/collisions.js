@@ -118,8 +118,7 @@ export class Collision {
         return arrayEmptySpace;
     }
 
-    levelCollision(tetro,xRows){
-
+    getHeights (xRows){
         let xKeys = Object.keys(xRows);
         let index = 0;
         let heights = [];
@@ -127,37 +126,85 @@ export class Collision {
 
         xKeys.map(key => xRows[key] = this.getEmptyRows(xRows[key]));
 
-    
 
         xKeys.map(key => {
             let index =0;
             while (index != 20){
-            
+              //  console.log(key, "current key ")
                 if (xRows[key][index] != "empty"){
                     let square = xRows[key][index];
                     let coordinates = {xCoord: square.position.xPosition, yCoord: square.position.yPosition};
+                    //console.log(coordinates, "coordinates");
                     currentHeights.push(coordinates);
                    // console.log(currentHeights, "current heighs")
                 } else if(xRows[key][index] == "empty"){
-                    console.log(currentHeights, "current heights")
+                  //  console.log(currentHeights, "current heights")
                     let numbers = [];
                 
                     currentHeights.map(coordinates => {
                         numbers.push(coordinates.yCoord);
+                     
                     })
-                    let leastNumber = numbers.sort((a,b) => a-b);
-                    let coordinates = {xCoord:key, yCoord: leastNumber[0]}
-                    //console.log(currentHeights.length, "current heights length")
-                    if (currentHeights.length != 0) heights.push(coordinates)
                     
-                }
+                    let leastNumber = numbers.sort((a,b) => a-b);
+                    if(currentHeights.length != 0){
+                    //    console.log(currentHeights, "current heights")
+                        if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
+                        let coordinates = {xCoord:currentHeights[0].xCoord, yCoord:leastNumber[0]}
+                        heights.push(coordinates);
+                        
+
+                  }
+                    currentHeights = [];
+                    
+                  //  console.log(coordinates, "coordinates")
+                   // console.log(currentHeights.length, "current heights length")
+                  // console.log(key, "key")
+                 // console.log(currentHeights, "current heights")
+                    
+                } 
                 index ++;
-               // console.log(currentHeights, "current heigths")
+                //console.log(currentHeights, "current heigths")
+            
             }
+            let numbers = [];
+                
+            currentHeights.map(coordinates => {
+                numbers.push(coordinates.yCoord);
+             
+            })
+            
+            let leastNumber = numbers.sort((a,b) => a-b);
+            if(currentHeights.length != 0){
+            //    console.log(currentHeights, "current heights")
+                if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
+                let coordinates = {xCoord:currentHeights[0].xCoord, yCoord:leastNumber[0]}
+                heights.push(coordinates);
+                
+
+          }
+            currentHeights = []; 
+            
+
         })
-        
-        
-        //console.log(heights)
+       return heights;
+
+
+    }
+
+
+    levelCollision(tetro,xRows){
+        let heights = this.getHeights(xRows);
+        heights.map(coordinates => {
+            tetro.map(squareObject => {
+                square = squareObject.currentSquare;
+                if (square.position.yPosition == coordinates.yCoord -1){
+                    if (square.position.xCoord == coordinates.xCoord){
+                        return true;
+                    }
+                }
+            })
+        })
 
     }
     

@@ -19,7 +19,7 @@ class Game {
         this.oTetromino = new OTetromino;
         this.zTetromino = new ZTetromino;
 
-        this.tetro = this.jTetromino;
+        this.tetro = this.oTetromino;
         this.tetroMove = false
         this.settings = new Settings;
 
@@ -194,7 +194,7 @@ class Game {
 
         tetro.group = []
 
-        if(this.differentTetromino) this.tetro = this.jTetromino;
+        if(this.differentTetromino) this.tetro = this.jTetromino
 
         this.tetro.changePlacement(defaultPosition);
         this.tetro.changePlacement(defaultPosition);
@@ -364,7 +364,7 @@ class Game {
             index++;
 
         }
-     
+     //   console.log(rows, "rows")
         return rows;
 
     }
@@ -373,7 +373,8 @@ class Game {
         if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
         this.updateStats();
     
-        if (this.collision.bototmCollision(this.tetro,this.collisionPoints)) this.addToGrid(this.tetro)
+        this.xRows = this.createXRows();
+        if (this.collision.levelCollision(this.tetro,this.xRows)) this.addToGrid(this.tetro)
 
         this.yRows = this.createYRows();
         this.xRows = this.createXRows();
