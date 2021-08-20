@@ -7,4 +7,13 @@ export class TetroTask {
         }
     }
 
+    makeTetroVisbile(group){
+        group.map(squareObject => {
+            let currentSquare = squareObject.currentSquare;
+            currentSquare.square.style.visibility = "visible"
+        })
+    }
+
+
+
 }

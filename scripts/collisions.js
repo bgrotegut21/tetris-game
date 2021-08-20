@@ -36,6 +36,7 @@ export class Collision {
             } 
 
             if (direction == "left2"){
+                console.log("collision")
                 if (square.position.xPosition < 0){
                     restrictMovement = true;
                     break
@@ -72,20 +73,8 @@ export class Collision {
     }
 
 
+ 
 
-    bototmCollision(tetro, collisionPoints){
-        for (let tetroObject of tetro.group){
-            let tetroSquare = tetroObject.currentSquare;
-            for (let squareObject of collisionPoints){
-                let square = squareObject.currentSquare;
-                if (tetroSquare.position.yPosition == square.position.yPosition -1){
-                    if(tetroSquare.position.xPosition == square.position.xPosition ){
-                        return true;
-                    }
-                }
-            }
-        }
-    }
 
     getEmptyRows(array){
         let index = 0;
@@ -193,21 +182,49 @@ export class Collision {
     }
 
 
-    levelCollision(tetro,xRows){
-        let heights = this.getHeights(xRows);
-        heights.map(coordinates => {
-            tetro.map(squareObject => {
-                square = squareObject.currentSquare;
-                if (square.position.yPosition == coordinates.yCoord -1){
-                    if (square.position.xCoord == coordinates.xCoord){
-                        return true;
-                    }
-                }
-            })
-        })
-
+    levelCollision(tetro,xRows,collisionPoints){
+    if (this.normalCollision(tetro, collisionPoints)) return;    
+    let heights = this.getHeights(xRows);
+      for (let coordinates of  heights){
+          for (let squareObject of tetro.group){
+              let square = squareObject.currentSquare;
+              if (square.position.yPosition == coordinates.yCoord -1){
+                  if (square.position.xPosition == coordinates.xCoord){
+                      return true;
+                  }
+              }
+          }
+      }
     }
-    
+
+
+    showVisbility(tetro){
+        tetro.group.map(squareObject => {
+            let currentSquare = squareObject.currentSquare;
+            currentSquare.square.style.visibility = "hid"
+        })
+    }
+
+    normalCollision(tetro,collisionPoints){
+        for (let squareObject of collisionPoints){
+            let square = squareObject.currentSquare;
+
+            for(let tetroObject of tetro.group){
+                let tetroSquare = tetroObject.currentSquare;
+                if(square.position.yPosition == tetroSquare.position.yPosition && 
+                   square.position.xPosition == tetroSquare.position.xPosition){  
+                    return true;
+                } 
+            }
+        }
+    }
+
+
+    detectCollision(tetro,collisionPoints){
+        if (this.normalCollision(tetro,collisionPoints)){
+            tetro.reversePlacement(tetro.group[0].currentSquare.position,collisionPoints)
+        }
+    }
 
     squareCollision(tetro, collisionPoints,direction){
 
@@ -231,7 +248,7 @@ export class Collision {
                     }
                     if (direction == "left"){
                         if (this.leftCollision(tetroSquare,square)){
-                            console.log("left collision")
+                           // console.log("left collision")
                            
                             restrictMovement = true;
                             break;

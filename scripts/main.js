@@ -4,6 +4,7 @@ import { Settings } from "./settings.js";
 import {JTetromino} from "./jTetro.js";
 import {OTetromino } from "./oTetro.js";
 import {ZTetromino} from "./zTetro.js";
+import { TTetromino } from "./tTetro.js";
 
 import {Position} from "./position.js"
 import{Square} from "./square.js"
@@ -18,8 +19,9 @@ class Game {
         this.jTetromino = new JTetromino;
         this.oTetromino = new OTetromino;
         this.zTetromino = new ZTetromino;
+        this.tTetromino = new TTetromino;
 
-        this.tetro = this.oTetromino;
+        this.tetro = this.tTetromino;
         this.tetroMove = false
         this.settings = new Settings;
 
@@ -51,7 +53,7 @@ class Game {
 
         this.runKeyEvents();
         this.mouseEvent();
-        this.tetro.changeDefaultPosition(new Position(3,0))
+        this.tetro.changeDefaultPosition(new Position(4,0),this.collisionPoints)
         this.tetro.currentPosition = 1;
 
 
@@ -194,11 +196,11 @@ class Game {
 
         tetro.group = []
 
-        if(this.differentTetromino) this.tetro = this.jTetromino
+        if(this.differentTetromino) this.tetro = this.tTetromino;
 
-        this.tetro.changePlacement(defaultPosition);
-        this.tetro.changePlacement(defaultPosition);
-        this.currentScore += 18;
+        this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints)
+        this.tetro.currentPosition = 1;
+
 
     }
 
@@ -219,7 +221,7 @@ class Game {
         });
         window.addEventListener("click",() => {
             if (Settings.prototype.gameOn) {
-               this.tetro.changePlacement(this.tetro.group[0].currentSquare.position);
+               this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints);
             }
         })
         window.addEventListener("touchmove",action => {
@@ -240,7 +242,6 @@ class Game {
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
             if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %10 == 0 ){
-                if(this.collision.wallCollision(this.tetro.group,"bottom")) return;
                 if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.moveYPosition(1);
                 yRecordedPosition = Math.floor(touchEvent.clientY);
             }
@@ -274,7 +275,7 @@ class Game {
     }
 
     checkType (tetro) {
-        console.log(tetro, "this is tetro")
+       // console.log(tetro, "this is tetro")
         if (tetro.type == "zTetromino") {
             if (this.checkZTetro(tetro)) return true;
         }
@@ -305,10 +306,12 @@ class Game {
                 if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.moveYPosition(1);
             }
             if (action.key == "ArrowUp"){
+                console.log(this.tetro)
                 if (Settings.prototype.gameOn) {
-                    if(this.collision.squareCollision(this.tetro, this.collisionPoints,"left") && this.checkType(this.tetro) ) return;
-                    console.log(this.tetro, "this tetro")
-                    this.tetro.changePlacement(this.tetro.group[0].currentSquare.position)
+                   
+           //         console.log(this.tetro, "this tetro")
+                    console.log(this.tetro.group, "this tetro group")
+                    this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints)
                     
                 }
             }
@@ -370,17 +373,21 @@ class Game {
     }
     
     runGame(){
+       // console.log(this.tetro.group, "tetro group")
         if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
         this.updateStats();
     
         this.xRows = this.createXRows();
-        if (this.collision.levelCollision(this.tetro,this.xRows)) this.addToGrid(this.tetro)
+        
 
         this.yRows = this.createYRows();
         this.xRows = this.createXRows();
-        this.checkRows();
 
-        this.collision.levelCollision(this.tetro,this.xRows);
+        this.checkRows();
+        
+       this.collision.detectCollision(this.tetro,this.collisionPoints)
+        if (this.collision.levelCollision(this.tetro,this.xRows,this.collisionPoints)) this.addToGrid(this.tetro);
+
       //  if (this.canDrop){
         //    this.canDrop = false;
           //  this.addToGrid(this.spawnDummyItem)
