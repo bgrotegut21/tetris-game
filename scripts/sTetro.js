@@ -7,10 +7,10 @@ import { TetroTask } from "./tetroTask.js";
 //Different positions
 // |_    -|        |_      --|
 // 1     2         3        4
-export class ZTetromino {
-    constructor(){
+export class STetromino {
+    constructor(){    
         this.attribute = new Attribute;
-        this.image = "images/blueTetromino.svg"
+        this.image = "images/greenTetromino.svg";
         this.sizeX = 25;
         this.sizeY  = 25;
         this.squres = 4;
@@ -18,7 +18,7 @@ export class ZTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "zTetromino"
+        this.type = "sTetromino"
         this.restictPosition = false;
     
 
@@ -66,30 +66,28 @@ export class ZTetromino {
         let square;
         let currentPosition = position;
 
-        currentPosition = currentPosition.addX(2);
-        
-        for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition,"images/redTetromino.svg");
-            currentPosition = currentPosition.addY(1);
-            square.square.style.visibility = "hidden"
+
+        for (let num = 0; num < 2; num++) {
+            square = new Square(currentPosition,this.image);
+             // square.square.style.visibility = "hidden";
             square.createSquare;
-            let squareObject = {currentSquare: square, playable:true}
+            currentPosition = currentPosition.addY(-1)
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
-        }  
 
-        currentPosition = currentPosition.addX(-1);
-        currentPosition = currentPosition.addY(-1);
+        }
+        currentPosition = currentPosition.addX(1);
+        currentPosition = currentPosition.addY(2)
 
-
-        for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition,"images/redTetromino.svg");
-            currentPosition = currentPosition.addY(1);
-            square.square.style.visibility = "hidden"
+        for (let num = 0; num < 2; num++) {
+            square = new Square(currentPosition,this.image);
+             // square.square.style.visibility = "hidden";
             square.createSquare;
-            let squareObject = {currentSquare: square, playable:true}
+            currentPosition = currentPosition.addY(1)
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
-        }  
 
+        }
 
 
 
@@ -99,38 +97,41 @@ export class ZTetromino {
 
 
 
-    changeDefaultPosition(position,collisionPoints) {
+    changeDefaultPosition(position,collisionPoints, modifyPosition) {
+
+    
         console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         
         let square;
         let currentPosition = position;
+        if (modifyPosition) currentPosition = currentPosition.addY(1)
 
-        currentPosition = currentPosition.addX(-2)
         for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition,"images/redTetromino.svg");
-            currentPosition = currentPosition.addX(1);
-            square.square.style.visibility = "hidden";
+            square = new Square(currentPosition,this.image);
+            // square.square.style.visibility = "hidden";
             square.createSquare;
-            let squareObject = {currentSquare: square, playable:true}
+            currentPosition = currentPosition.addX(1);
+            
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
-        }  
-
-        currentPosition = currentPosition.addX(-1)
+        }
+        currentPosition = currentPosition.addX(-2);
         currentPosition = currentPosition.addY(1);
+
         for (let num = 0; num < 2; num ++){
-            square = new Square(currentPosition,"images/redTetromino.svg");
-            square.square.style.visibility = "hidden";
+            square = new Square(currentPosition,this.image);
+            // square.square.style.visibility = "hidden";
             square.createSquare;
-            currentPosition = currentPosition.addX(1);
-            let squareObject = {currentSquare: square, playable:true}
+            currentPosition = currentPosition.addX(-1);
+            
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
-        } 
-        console.log(!this.collision.normalCollision(this, collisionPoints))
+        }
         if(this.collision.wallCollision(this.group,"left2")){
             this.currentPosition = 2;
-            this.changeFirstPosition(position.addX(-2),collisionPoints);
+            this.changeFirstPosition(position,collisionPoints);
         
         }
 

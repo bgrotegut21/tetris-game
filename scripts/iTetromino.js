@@ -124,7 +124,7 @@ export class ITetromino {
 
         for (let num = 0; num < 4; num ++){
             square = new Square(currentPosition,this.image);
-            sqaure.square.style.visibility = "hidden";
+            square.square.style.visibility = "hidden";
             square.createSquare;
             currentPosition = currentPosition.addY(1);
             let squareObject = {currentSquare:square, playable: true};
