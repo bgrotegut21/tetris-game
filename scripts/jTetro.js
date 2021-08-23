@@ -95,13 +95,13 @@ export class JTetromino {
             if (num == 3){
                 currentPosition = currentPosition.addY(1);
                 square = new Square(currentPosition, "images/blueTetromino.svg");
-               // square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 
             } else {
 
                 square = new Square(currentPosition, "images/blueTetromino.svg");
-               // square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 currentPosition = currentPosition.addX(addNumber);
             }
@@ -137,11 +137,11 @@ export class JTetromino {
                 currentPosition = currentPosition.addX(-1)
                 currentPosition = currentPosition.addY(-1)
                 square = new Square(currentPosition,"images/blueTetromino.svg");
-              //  square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
             } else {
                 square = new Square(currentPosition, "images/blueTetromino.svg");
-               // square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 currentPosition = currentPosition.addY(1);
             }
@@ -169,7 +169,7 @@ export class JTetromino {
             if (first){
 
                 square = new Square(currentPosition,"images/blueTetromino.svg");
-             //   square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
 
     
@@ -178,7 +178,7 @@ export class JTetromino {
             } else {
                 currentPosition = currentPosition.addY(yIndex)
                 square = new Square(currentPosition,"images/blueTetromino.svg");
-                //square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 currentPosition = currentPosition.addX(xIndex)
                 yIndex = 1;
@@ -212,7 +212,7 @@ export class JTetromino {
             if (first){
 
                 square = new Square(currentPosition, "images/blueTetromino.svg");
-              // square.square.style.visibility = "hidden"
+               square.square.style.visibility = "hidden"
                 square.createSquare;
                 
                 currentPosition = currentPosition.addY(1)
@@ -221,7 +221,7 @@ export class JTetromino {
             } else {
                 currentPosition = currentPosition.addX(addNumber)
                 square = new Square(currentPosition, "images/blueTetromino.svg")
-               // square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 addNumber =1;
             }
@@ -229,7 +229,7 @@ export class JTetromino {
             this.group.push(squareObject)
         }
         if (this.collision.wallCollision(this.group,"right2")){
-           // console.log("adding stuff")
+            console.log("adding stuff")
             this.changeThridPosition(position.addX(-1),collisionPoints);
             this.currentPosition = 4;
         }

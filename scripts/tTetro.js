@@ -35,6 +35,7 @@ export class TTetromino {
         else this.currentPosition += 1;
 
         if (this.currentPosition == 1){
+
             this.changeDefaultPosition(position,collisionPoints);     
             return;
         }    
@@ -59,7 +60,7 @@ export class TTetromino {
 
         if (this.currentPosition == 1){
         
-            this.changeThirdPosition(newPosition.addY(1),collisionPoints)
+            this.changeThirdPosition(position,collisionPoints)
             this.currentPosition = 4;
             return;
         }
@@ -100,11 +101,11 @@ export class TTetromino {
                currentPosition = currentPosition.addX(1);
                currentPosition = currentPosition.addY(-2);
                square = new Square(currentPosition, this.image);
-               //square.square.style.visibility = 'hidden';
+               square.square.style.visibility = 'hidden';
                square.createSquare;
            } else {
                square = new Square(currentPosition, this.image);
-               //square.square.style.visibility = 'hidden';
+               square.square.style.visibility = 'hidden';
                square.createSquare;
                currentPosition = currentPosition.addY(1);
            }
@@ -136,11 +137,11 @@ export class TTetromino {
                 currentPosition = currentPosition.addY(-1)
                 currentPosition = currentPosition.addX(-2)
                 square = new Square(currentPosition, this.image)
-                //square.square.style.visibility ="hidden";
+                square.square.style.visibility ="hidden";
                 square.createSquare;
             } else {
                 square = new Square(currentPosition, this.image);
-               // square.square.style.visibility = "hidden"
+                square.square.style.visibility = "hidden"
                 square.createSquare;
                 currentPosition = currentPosition.addX(1);
             }
@@ -151,7 +152,7 @@ export class TTetromino {
         if (this.collision.wallCollision(this.group,"right2")){
             // console.log("adding stuff")
     
-             this.changeFirstPosition(position.addX(-1),collisionPoints)
+             this.changeFirstPosition(position,collisionPoints)
              this.currentPosition = 2;
          }
         
@@ -178,11 +179,11 @@ export class TTetromino {
                 currentPosition = currentPosition.addX(-1);
                 currentPosition = currentPosition.addY(-2);
                 square = new Square(currentPosition,this.image);
-                //square.square.style.visibility = 'hidden';
+                square.square.style.visibility = 'hidden';
                 square.createSquare;
            } else {
                square = new Square(currentPosition, this.image);
-               //square.square.style.visibility = 'hidden';
+               square.square.style.visibility = 'hidden';
                square.createSquare;
                currentPosition = currentPosition.addY(1);
 
@@ -220,7 +221,7 @@ export class TTetromino {
 
             } else {
                 square = new Square(currentPosition, this.image);
-                // square.square.style.visibility = "hidden";
+                 square.square.style.visibility = "hidden";
                 square.createSquare;
                 currentPosition = currentPosition.addX(addNumber);
 
@@ -233,9 +234,9 @@ export class TTetromino {
         
         if (this.collision.wallCollision(this.group,"left2")){
             // console.log("adding stuff")
-            let newPosition = position.addX(-1);
-            newPosition = newPosition.addY(1);
-             this.changeThirdPosition(newPosition, collisionPoints);
+          //  let newPosition = position.addX(-1);
+          //  newPosition = newPosition.addY(1);
+             this.changeThirdPosition(position, collisionPoints);
              this.currentPosition = 4;
          }
 
