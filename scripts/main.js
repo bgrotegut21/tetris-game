@@ -7,6 +7,7 @@ import {ZTetromino} from "./zTetro.js";
 import { TTetromino } from "./tTetro.js";
 import {ITetromino} from "./iTetromino.js"
 import {STetromino} from "./sTetro.js";
+import { LTetromino } from "./lTetro.js";
 
 import {Position} from "./position.js"
 import{Square} from "./square.js"
@@ -24,8 +25,9 @@ class Game {
         this.tTetromino = new TTetromino;
         this.iTetromino =  new ITetromino;
         this.sTetromino = new STetromino;
+        this.lTetromino = new LTetromino;
 
-        this.tetro = this.sTetromino;
+        this.tetro = this.lTetromino;
         this.tetroMove = false
         this.settings = new Settings;
 

@@ -8,10 +8,10 @@ import { TetroTask } from "./tetroTask.js";
 //Different positions
 // |_    -|        |_      --|
 // 1     2         3        4
-export class JTetromino {
+export class LTetromino {
     constructor(){
         this.attribute = new Attribute;
-        this.image = "images/blueTetromino.svg"
+        this.image = "images/orangeTetromino.svg"
         this.sizeX = 25;
         this.sizeY  = 25;
         this.squres = 4;
@@ -88,31 +88,29 @@ export class JTetromino {
         let addNumber = 1
         let square;
 
-       currentPosition = currentPosition.addX(-1)
-        for (let num =0; num <4; num ++){
+        currentPosition = currentPosition.addY(1);
+        for (let num = 0; num < 3; num ++){
+            square = new Square(currentPosition, this.image);
+            // square.square.style.visibility = "hidden"
+             square.createSquare;
+     
+             let squareObject = {currentSquare: square, playable:true};
+             this.group.push(squareObject)
+             currentPosition = currentPosition.addX(1)
 
-            if (num == 2) addNumber = 0;
-            if (num == 3){
-                currentPosition = currentPosition.addY(1);
-                square = new Square(currentPosition, "images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-                
-            } else {
+        }
 
-                square = new Square(currentPosition, "images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-                currentPosition = currentPosition.addX(addNumber);
-            }
-            let squareObject = {currentSquare: square, playable:true};
-            this.group.push(squareObject);
-        }
-        if (this.collision.wallCollision(this.group,"left2")){
-           // console.log("adding stuff")
-            this.changeFirstPosition(position.addX(-1), collisionPoints);
-            this.currentPosition = 2;
-        }
+        currentPosition = currentPosition.addY(-1);
+        currentPosition = currentPosition.addX(-1)
+
+        square = new Square(currentPosition, this.image);
+        // square.square.style.visibility = "hidden"
+         square.createSquare;
+ 
+         let squareObject = {currentSquare: square, playable:true};
+         this.group.push(squareObject)
+  
+
         
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
 
@@ -130,24 +128,32 @@ export class JTetromino {
         let addNumber = 1
         let square;
         let first = true;
-        currentPosition = currentPosition.addX(1)
 
-        for (let num = 0; num < 4; num ++){
-            if (num == 3){
-                currentPosition = currentPosition.addX(-1)
-                currentPosition = currentPosition.addY(-1)
-                square = new Square(currentPosition,"images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-            } else {
-                square = new Square(currentPosition, "images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-                currentPosition = currentPosition.addY(1);
-            }
-            let squareObject = {currentSquare: square, playable:true};
-            this.group.push(squareObject);
+        currentPosition = currentPosition.addX(1)
+        for(let num = 0; num <3; num ++){
+            square = new Square(currentPosition, this.image);
+            // square.square.style.visibility = "hidden"
+             square.createSquare;
+     
+             let squareObject = {currentSquare: square, playable:true};
+             this.group.push(squareObject)
+             currentPosition = currentPosition.addY(-1)
         }
+
+    
+        currentPosition = currentPosition.addY(3);
+
+        for(let num = 0; num <2; num ++){
+            square = new Square(currentPosition, this.image);
+            // square.square.style.visibility = "hidden"
+             square.createSquare;
+     
+             let squareObject = {currentSquare: square, playable:true};
+             this.group.push(squareObject)
+             currentPosition = currentPosition.addX(1)
+        }
+
+        
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
     }
 
@@ -163,30 +169,31 @@ export class JTetromino {
         let xIndex = -1
         let yIndex = 0;
 
-        currentPosition = currentPosition.addX(1)
+        currentPosition = currentPosition.addY(-1);
 
-        for (let num = 0; num <4; num ++){
-            if (first){
+        square = new Square(currentPosition, this.image);
+       // square.square.style.visibility = "hidden"
+        square.createSquare;
 
-                square = new Square(currentPosition,"images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
+        let squareObject = {currentSquare: square, playable:true};
+        this.group.push(squareObject)
 
-    
-                currentPosition = currentPosition.addX(1)
-                first = false;
-            } else {
-                currentPosition = currentPosition.addY(yIndex)
-                square = new Square(currentPosition,"images/blueTetromino.svg");
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-                currentPosition = currentPosition.addX(xIndex)
-                yIndex = 1;
-                xIndex = 0
-            }
-            let squareObject = {currentSquare: square, playable:true};
-            this.group.push(squareObject);
+        currentPosition = currentPosition.addX(1);
+
+        for(let num =0; num < 3; num++){
+            square = new Square(currentPosition, this.image);
+            // square.square.style.visibility = "hidden"
+             square.createSquare;
+     
+             let squareObject = {currentSquare: square, playable:true};
+             this.group.push(squareObject)
+             currentPosition = currentPosition.addY(1)
+
         }
+
+
+
+
         
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
 
@@ -197,44 +204,40 @@ export class JTetromino {
 
     changeDefaultPosition(position,collisionPoints) {
 
+
         this.task.emptySquareObjects(this.group);
         this.group = []
         
-       
-        let first = true;
         let currentPosition = position
         let addNumber = 0
         let square;
 
-        currentPosition = currentPosition.addX(-1)
-        for(let num = 0; num < 4; num ++){
+        currentPosition = position.addX(-1)
+        for (let num = 0; num <3; num++){
+            square = new Square(currentPosition, this.image);
+         //   square.square.style.visibility = "hidden"
+            square.createSquare;
+             
+            currentPosition = currentPosition.addX(1)
 
-            if (first){
-
-                square = new Square(currentPosition, "images/blueTetromino.svg");
-               square.square.style.visibility = "hidden"
-                square.createSquare;
-                
-                currentPosition = currentPosition.addY(1)
-                first = false;
-
-            } else {
-                currentPosition = currentPosition.addX(addNumber)
-                square = new Square(currentPosition, "images/blueTetromino.svg")
-                square.square.style.visibility = "hidden"
-                square.createSquare;
-                addNumber =1;
-            }
-            let squareObject = {currentSquare: square, playable: true};
+            let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject)
+
         }
-        if (this.collision.wallCollision(this.group,"right2")){
-            console.log("adding stuff")
-            this.changeThridPosition(position.addX(-1),collisionPoints);
-            this.currentPosition = 4;
-        }
+        currentPosition = currentPosition.addY(1);
+        currentPosition = currentPosition.addX(-3)
+        square = new Square(currentPosition, this.image);
+        square.square.style.visibility = "hidden"
+        square.createSquare;
+
+        let squareObject = {currentSquare: square, playable:true};
+        this.group.push(squareObject)
+
+
 
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
+
+
       
 
     }
