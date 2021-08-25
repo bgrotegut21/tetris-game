@@ -4,11 +4,11 @@ export function Attribute (){
 
     this.iTetrominoImage = document.querySelector(".iTetromino-image");
     this.zTetrominoImage = document.querySelector(".zTetromino-image");
-    this.sTetrominoImage = document.querySelector(".sTetromino-Image");
+    this.sTetrominoImage = document.querySelector(".sTetromino-image");
     this.tTetromino = document.querySelector(".tTetromino-image");
     this.jTetromino = document.querySelector(".jTetromino-image");
     this.oTetromino = document.querySelector(".oTetromino-image");
-    this.lTetromino = document.querySelector(".lTetromino-image");
+    this.lTetrominoImage = document.querySelector(".lTetromino-image");
 
     this.scoreNumber = document.querySelector(".score-number");
     this.lineNumber = document.querySelector(".line-number");

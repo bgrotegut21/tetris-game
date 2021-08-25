@@ -15,6 +15,8 @@ import {Collision} from "./collisions.js"
 import {DummyItems} from "./dummyProps.js"
 
 
+let attribute = new Attribute;
+
 class Game {
     constructor(){
         this.attribute = new Attribute;
@@ -27,9 +29,15 @@ class Game {
         this.sTetromino = new STetromino;
         this.lTetromino = new LTetromino;
 
-        this.tetro = this.lTetromino;
+
+        this.tetrominos = [this.jTetromino, this.oTetromino, this.zTetromino,
+                            this.tTetromino, this.iTetromino, this.sTetromino, this.lTetromino
+        ];
+        this.tetro = this.jTetromino;
+
         this.tetroMove = false
         this.settings = new Settings;
+        this.nextTetromino;
 
 
         this.restrictMovement = false;
@@ -55,12 +63,22 @@ class Game {
     
 
 
+
+
     runOnce(){
+
 
         this.runKeyEvents();
         this.mouseEvent();
+
+
+        this.tetro = this.spawnRandomTetro();
+
         this.tetro.changeDefaultPosition(new Position(4,0),this.collisionPoints,true)
         this.tetro.currentPosition = 1;
+
+        this.nextTetromino = this.spawnRandomTetro();
+        this.displayRandomTetro(this.nextTetromino)
 
 
         //this.spawnDummyItem.createTwoRowTetro()
@@ -69,6 +87,28 @@ class Game {
     
 
     }
+
+
+
+
+    closeSquareImages(){
+        this.tetrominos.map(tetro => {
+    
+            tetro.squareImage.style.display = "none";
+        })
+    }
+
+    displayRandomTetro(tetro){
+        this.closeSquareImages();
+        tetro.squareImage.style.display = "block"
+    }
+
+    spawnRandomTetro(){
+        let randomIndex = Math.floor(Math.random() * 7);
+        return this.tetrominos[randomIndex];
+    }
+
+
 
     deleteCollisionPoints (collisionPoints,number){
         let newCollisionPoints = collisionPoints.filter(squareObject => squareObject.currentSquare.position.yPosition != number);
@@ -202,12 +242,16 @@ class Game {
 
         tetro.group = []
 
-        if(this.differentTetromino) this.tetro = this.tTetromino;
-        this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints)
+        this.tetro = this.nextTetromino;
+        this.nextTetromino = this.spawnRandomTetro();
+        this.displayRandomTetro(this.nextTetromino)
+        this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints,true)
         this.tetro.currentPosition = 1;
 
 
     }
+
+    
 
     
 
@@ -288,7 +332,23 @@ class Game {
             if (this.checkJTetro(tetro)) return true;
         }
     }
+
+    
   
+
+    clickEvents() {
+        this.attribute.modeText.addEventListener("click", () => {
+            Settings.prototype.gameOn = true;
+        })
+        this.attribute.pauseButton.addEventListener("click", () => {
+            Settings.prototype.gameOn = false;
+        })
+
+        this.attribute.quitButton.addEventListener("click", () => {
+
+
+        })
+    }
 
     runKeyEvents(){
         window.addEventListener("keydown", action => {
@@ -311,11 +371,11 @@ class Game {
                 if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.moveYPosition(1);
             }
             if (action.key == "ArrowUp"){
-                console.log(this.tetro)
+          //p      console.log(this.tetro)
                 if (Settings.prototype.gameOn) {
                    
            //         console.log(this.tetro, "this tetro")
-                    console.log(this.tetro.group, "this tetro group")
+                   // console.log(this.tetro.group, "this tetro group")
                     this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints)
                     
                 }
@@ -363,6 +423,8 @@ class Game {
         return rows;
     }
 
+    
+
     createXRows(){
         let index = 0;
         let rows = {0:[]}
@@ -374,8 +436,9 @@ class Game {
         }
      //   console.log(rows, "rows")
         return rows;
-
     }
+
+
     
     runGame(){
        // console.log(this.tetro.group, "tetro group")
@@ -387,11 +450,13 @@ class Game {
 
         this.yRows = this.createYRows();
         this.xRows = this.createXRows();
-
+        
+  
         this.checkRows();
         
        this.collision.detectCollision(this.tetro,this.collisionPoints)
         if (this.collision.levelCollision(this.tetro,this.xRows,this.collisionPoints)) this.addToGrid(this.tetro);
+        if (this.collision.vetricalRowCollision(this.collisionPoints)) console.log('game over')
 
       //  if (this.canDrop){
         //    this.canDrop = false;
@@ -405,6 +470,11 @@ class Game {
     }
 }
 
+
+window.addEventListener("click", () => {
+
+})
+
 let game = new Game;
 
 game.runOnce()
@@ -414,3 +484,5 @@ function startTimer(){
         game.runGame()
     },10)
 }
+
+

@@ -18,7 +18,7 @@ export class STetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "sTetromino"
+        this.squareImage = this.attribute.sTetrominoImage;
         this.restictPosition = false;
     
 
@@ -100,7 +100,7 @@ export class STetromino {
     changeDefaultPosition(position,collisionPoints, modifyPosition) {
 
     
-        console.log("chande defualt position")
+       // console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         

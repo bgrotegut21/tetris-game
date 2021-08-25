@@ -18,7 +18,7 @@ export class ZTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "zTetromino"
+        this.squareImage = this.attribute.zTetrominoImage;
         this.restictPosition = false;
     
 
@@ -100,7 +100,7 @@ export class ZTetromino {
 
 
     changeDefaultPosition(position,collisionPoints) {
-        console.log("chande defualt position")
+    //    console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         
@@ -127,7 +127,7 @@ export class ZTetromino {
             let squareObject = {currentSquare: square, playable:true}
             this.group.push(squareObject);
         } 
-        console.log(!this.collision.normalCollision(this, collisionPoints))
+       // console.log(!this.collision.normalCollision(this, collisionPoints))
         if(this.collision.wallCollision(this.group,"left2")){
             this.currentPosition = 2;
             this.changeFirstPosition(position.addX(-2),collisionPoints);

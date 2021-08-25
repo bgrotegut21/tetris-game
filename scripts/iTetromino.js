@@ -18,7 +18,7 @@ export class ITetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "iTetromino"
+        this.squareImage = this.attribute.iTetrominoImage;
         this.restictPosition = false;
     
 
@@ -47,7 +47,6 @@ export class ITetromino {
     }
 
     reversePlacement(position,collisionPoints){
-        console.log("reverse placement ")
         if (this.currentPosition == 1){
         
             this.changeFirstPosition(position,collisionPoints);
@@ -116,7 +115,6 @@ export class ITetromino {
 
 
     changeDefaultPosition(position,collisionPoints) {
-        console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         let square;

@@ -19,7 +19,7 @@ export class JTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "jTetromino"
+        this.squareImage = this.attribute.jTetromino;
         this.restictPosition = false;
     
 

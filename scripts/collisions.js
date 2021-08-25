@@ -36,7 +36,7 @@ export class Collision {
             } 
 
             if (direction == "left2"){
-                console.log("collision")
+                //console.log("collision")
                 if (square.position.xPosition < 0){
                     restrictMovement = true;
                     break
@@ -138,7 +138,7 @@ export class Collision {
                     let leastNumber = numbers.sort((a,b) => a-b);
                     if(currentHeights.length != 0){
                     //    console.log(currentHeights, "current heights")
-                        if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
+                     //   if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
                         let coordinates = {xCoord:currentHeights[0].xCoord, yCoord:leastNumber[0]}
                         heights.push(coordinates);
                         
@@ -215,6 +215,18 @@ export class Collision {
                    square.position.xPosition == tetroSquare.position.xPosition){  
                     return true;
                 } 
+            }
+        }
+    }
+
+    vetricalRowCollision(collisionPoints){
+        console.log(collisionPoints, "collision points")
+        for (let squareObject of collisionPoints){
+            let square = squareObject.currentSquare;
+            
+            if (square.position.xPosition == 1){
+                console.log(square.position.xPosition, "square x position")
+                return true
             }
         }
     }

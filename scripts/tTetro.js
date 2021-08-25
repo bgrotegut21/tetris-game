@@ -18,7 +18,7 @@ export class TTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "tTetromino"
+        this.squareImage = this.attribute.tTetromino;
         this.restictPosition = false;
     
 

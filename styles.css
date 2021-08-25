@@ -78,7 +78,7 @@ main {
 }
 
 .mode-text{
-    display: none;
+    display: block;
     cursor: pointer;
 }
 
@@ -159,7 +159,7 @@ main {
 
 .zTetromino {
     background:green;
-    top:10px
+    top:10px;
     display:none;
 
 }

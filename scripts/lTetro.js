@@ -19,7 +19,7 @@ export class LTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "lTetromino"
+        this.squareImage = this.attribute.lTetrominoImage;
         this.restictPosition = false;
     
 
@@ -81,7 +81,7 @@ export class LTetromino {
     
 
 
-    changeSecondPosition(position,collisionPoints){
+    changeThridPosition(position,collisionPoints){
         this.task.emptySquareObjects(this.group);
         this.group = []
         let currentPosition = position;
@@ -109,7 +109,13 @@ export class LTetromino {
  
          let squareObject = {currentSquare: square, playable:true};
          this.group.push(squareObject)
-  
+
+        if(this.collision.wallCollision(this.group,"right2")){
+            let newPosition = position;
+            newPosition = newPosition.addY(1)
+            this.currentPosition = 3;
+            this.changeSecondPosition(newPosition,collisionPoints)
+        }
 
         
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
@@ -119,7 +125,7 @@ export class LTetromino {
 
 
 
-    changeThridPosition(position,collisionPoints){
+    changeDefaultPosition(position,collisionPoints,modifyPosition) {
 
         //console.log(position, "current position")
         this.task.emptySquareObjects(this.group);
@@ -128,7 +134,8 @@ export class LTetromino {
         let addNumber = 1
         let square;
         let first = true;
-
+        
+        if (modifyPosition) currentPosition = currentPosition.addY(2)
         currentPosition = currentPosition.addX(1)
         for(let num = 0; num <3; num ++){
             square = new Square(currentPosition, this.image);
@@ -158,7 +165,7 @@ export class LTetromino {
     }
 
 
-    changeFirstPosition(position,collisionPoints){
+    changeSecondPosition(position,collisionPoints){
 
         this.task.emptySquareObjects(this.group);
         this.group = []
@@ -202,7 +209,7 @@ export class LTetromino {
 
     
 
-    changeDefaultPosition(position,collisionPoints) {
+    changeFirstPosition(position,collisionPoints) {
 
 
         this.task.emptySquareObjects(this.group);
@@ -233,6 +240,13 @@ export class LTetromino {
         let squareObject = {currentSquare: square, playable:true};
         this.group.push(squareObject)
 
+
+        if (this.collision.wallCollision(this.group,"left2")){
+            let newPosition = position;
+            newPosition = newPosition.addX(-1)
+            this.currentPosition = 1;
+            this.changeDefaultPosition(newPosition,collisionPoints)
+        }
 
 
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)

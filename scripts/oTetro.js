@@ -17,7 +17,7 @@ export class OTetromino {
         this.currentPosition = 1;
         this.collision = new Collision;
         this.task = new TetroTask;
-        this.type = "oTetromino"
+        this.squareImage = this.attribute.oTetromino
         this.restictPosition = false;
 
     }
@@ -29,6 +29,9 @@ export class OTetromino {
         this.changeDefaultPosition(position)
     }
 
+    reversePlacement(position){
+        return;
+    }
 
     changeDefaultPosition(position){
         this.task.emptySquareObjects(this.group);
