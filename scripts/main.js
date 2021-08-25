@@ -70,6 +70,7 @@ class Game {
 
         this.runKeyEvents();
         this.mouseEvent();
+        this.clickEvents();
 
 
         this.tetro = this.spawnRandomTetro();
@@ -339,15 +340,28 @@ class Game {
     clickEvents() {
         this.attribute.modeText.addEventListener("click", () => {
             Settings.prototype.gameOn = true;
+            this.attribute.modeText.style.display = "none";
+            startTimer();
         })
-        this.attribute.pauseButton.addEventListener("click", () => {
-            Settings.prototype.gameOn = false;
+        this.attribute.pasueButton.addEventListener("click", () => {
+            if(this.attribute.modeText != "paused"){
+                Settings.prototype.gameOn = false;
+                this.attribute.modeText.textContent = "paused";
+                this.attribute.modeText.style.display = "block"
+                startTimer();
+
+            } else {
+                console.log('game on is true')
+                Settings.prototype.gameOn = true;
+                this.attribute.modeText.style.display = "none";
+                startTimer();
+
+            }
+
+            startTimer();
         })
 
-        this.attribute.quitButton.addEventListener("click", () => {
-
-
-        })
+    
     }
 
     runKeyEvents(){
@@ -470,10 +484,6 @@ class Game {
     }
 }
 
-
-window.addEventListener("click", () => {
-
-})
 
 let game = new Game;
 
