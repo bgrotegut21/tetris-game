@@ -27,4 +27,6 @@ export class Square {
         this.square.style.left = currentXPosition + "px";
         this.square.style.top = currentYPosition + "px";
     }
+
+    
 }
