@@ -296,12 +296,6 @@ main {
         line-height: 250px;
     }
 
-    .square {
-        position: absolute;
-        width:12.5px;
-        height:12.5px;
-        background-repeat: no-repeat;
-    }
 
 
 

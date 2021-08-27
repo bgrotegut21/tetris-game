@@ -99,7 +99,7 @@ export class ZTetromino {
 
 
 
-    changeDefaultPosition(position,collisionPoints) {
+    changeDefaultPosition(position,collisionPoints,modifyPosition) {
     //    console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []

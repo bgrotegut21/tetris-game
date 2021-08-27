@@ -206,6 +206,7 @@ export class Collision {
     }
 
     normalCollision(tetro,collisionPoints){
+    //    console.log(collisionPoints)
         for (let squareObject of collisionPoints){
             let square = squareObject.currentSquare;
 
@@ -219,17 +220,21 @@ export class Collision {
         }
     }
 
-    vetricalRowCollision(collisionPoints){
-        console.log(collisionPoints, "collision points")
+    vetricalRowCollision(collisionPoints,number){
+        let comparisonNumber;
+        if (typeof number == "undefined") comparisonNumber =0;
+        else comparisonNumber = number;
+        //console.log(collisionPoints, "collision points")
         for (let squareObject of collisionPoints){
             let square = squareObject.currentSquare;
             
-            if (square.position.xPosition == 1){
+            if (square.position.yPosition == comparisonNumber){
                 console.log(square.position.xPosition, "square x position")
                 return true
             }
         }
     }
+
 
 
     detectCollision(tetro,collisionPoints){

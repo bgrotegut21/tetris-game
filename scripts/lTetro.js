@@ -21,6 +21,7 @@ export class LTetromino {
         this.task = new TetroTask;
         this.squareImage = this.attribute.lTetrominoImage;
         this.restictPosition = false;
+        this.type == "lTetromino"
     
 
     }
@@ -134,7 +135,7 @@ export class LTetromino {
         let addNumber = 1
         let square;
         let first = true;
-        
+        console.log(modifyPosition, "modify position")
         if (modifyPosition) currentPosition = currentPosition.addY(2)
         currentPosition = currentPosition.addX(1)
         for(let num = 0; num <3; num ++){
@@ -209,7 +210,7 @@ export class LTetromino {
 
     
 
-    changeFirstPosition(position,collisionPoints) {
+    changeFirstPosition(position,collisionPoints,modifyPosition) {
 
 
         this.task.emptySquareObjects(this.group);
@@ -220,6 +221,7 @@ export class LTetromino {
         let square;
 
         currentPosition = position.addX(-1)
+    
         for (let num = 0; num <3; num++){
             square = new Square(currentPosition, this.image);
          //   square.square.style.visibility = "hidden"

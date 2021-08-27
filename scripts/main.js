@@ -16,6 +16,8 @@ import {DummyItems} from "./dummyProps.js"
 
 
 let attribute = new Attribute;
+let gameOn = false;
+let pausedGame = false;
 
 class Game {
     constructor(){
@@ -54,11 +56,14 @@ class Game {
         this.canDrop = true
         this.score = this.attribute.scoreNumber;
         this.lines = this.attribute.lineNumber;
+        this.defaultPosition = new Position(4,0)
 
         this.differentTetromino = false;
-
+        this.firstClick = true;
         this.currentScore =0;
         this.currentLine = 0;
+        this.stopAutoDrop = false;
+        this.lastTime = Date.now()
     }
     
 
@@ -71,15 +76,18 @@ class Game {
         this.runKeyEvents();
         this.mouseEvent();
         this.clickEvents();
-
+        
 
         this.tetro = this.spawnRandomTetro();
 
-        this.tetro.changeDefaultPosition(new Position(4,0),this.collisionPoints,true)
+        this.tetro.changeDefaultPosition(this.defaultPosition,this.collisionPoints,true);
         this.tetro.currentPosition = 1;
 
         this.nextTetromino = this.spawnRandomTetro();
         this.displayRandomTetro(this.nextTetromino)
+        this.blackOut(true);
+        this.closeSquareImages()
+        this.checkMediaQuery();
 
 
         //this.spawnDummyItem.createTwoRowTetro()
@@ -208,6 +216,7 @@ class Game {
         console.log(lowestLength, "lowest length")
         console.log(fallingRow,"falling row")
        // console.log(newRow, "new row")
+       this.updateLines(1);
         this.dropBlocks(fallingRow, newRow);
     
 
@@ -248,11 +257,32 @@ class Game {
         this.displayRandomTetro(this.nextTetromino)
         this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints,true)
         this.tetro.currentPosition = 1;
+        if (this.tetro.type == "lTetromino"){
+            if(this.collision.vetricalRowCollision(this.collisionPoints,2)){
+                if (this.collision.normalCollision(this.tetro,this.collisionPoints)){
+                    this.resetGame()
+                }
+            }
+        } else {
+            if (this.collision.vetricalRowCollision(this.collisionPoints,1)){
+                if (this.collision.normalCollision(this.tetro,this.collisionPoints)){
+                   this.resetGame()
+                }
+            }
+        }
+        this.updateScore(18)
 
 
     }
+    updateScore(number){
+        this.currentScore += number;
+        this.updateStats();
+    }
 
-    
+    updateLines(number){
+        this.currentLine += number;
+        this.updateStats();
+    }
 
     
 
@@ -262,7 +292,7 @@ class Game {
         let recordedPosition;
         let yRecordedPosition;
         window.addEventListener("touchstart", action => {
-            if (!Settings.prototype.gameOn) return;
+            if (!gameOn) return;
             let touchEvent= action.changedTouches[0];
             recordedPosition = Math.floor(touchEvent.clientX);
             yRecordedPosition = Math.floor(touchEvent.clientY);
@@ -270,8 +300,9 @@ class Game {
             allowtoMove = true
         });
         window.addEventListener("click",() => {
-            if (Settings.prototype.gameOn) {
-               this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints);
+            if (gameOn) {
+                if (this.firstClick) this.firstClick = false;
+                else this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints);
             }
         })
         window.addEventListener("touchmove",action => {
@@ -281,18 +312,18 @@ class Game {
             let touchEvent = action.changedTouches[0];
             if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
                 if(this.collision.wallCollision(this.tetro.group,"right")) return;
-                if (Settings.prototype.gameOn) this.moveXPosition(1);
+                if (gameOn) this.moveXPosition(1);
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
 
             if (Math.floor(touchEvent.clientX) < recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
 
                 if(this.collision.wallCollision(this.tetro.group,"left")) return;
-                if (Settings.prototype.gameOn) this.moveXPosition(-1);
+                if (gameOn) this.moveXPosition(-1);
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
             if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %10 == 0 ){
-                if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.moveYPosition(1);
+                if (gameOn) if (gameOn) this.moveYPosition(1);
                 yRecordedPosition = Math.floor(touchEvent.clientY);
             }
     
@@ -335,30 +366,50 @@ class Game {
     }
 
     
-  
+  startGame(){
+    gameOn = true;
+    this.blackOut(false)
+    this.attribute.modeText.style.display = "none";
+    this.nextTetromino.squareImage.style.display = "block"; 
+    this.firstClick = true;
+    this.lastTime = Date.now();
+    startTimer();
+
+  }
+
+
 
     clickEvents() {
         this.attribute.modeText.addEventListener("click", () => {
-            Settings.prototype.gameOn = true;
-            this.attribute.modeText.style.display = "none";
-            startTimer();
-        })
-        this.attribute.pasueButton.addEventListener("click", () => {
-            if(this.attribute.modeText != "paused"){
-                Settings.prototype.gameOn = false;
-                this.attribute.modeText.textContent = "paused";
-                this.attribute.modeText.style.display = "block"
-                startTimer();
-
-            } else {
-                console.log('game on is true')
-                Settings.prototype.gameOn = true;
-                this.attribute.modeText.style.display = "none";
-                startTimer();
-
+            if (this.attribute.modeText.textContent == "Play"){
+                this.startGame();
+            } 
+            if (this.attribute.modeText.textContent == "Game Over!"){
+                this.startGame()
             }
 
-            startTimer();
+            if (this.attribute.modeText.textContent == "Paused"){
+
+                this.startGame()
+            }
+        })
+        this.attribute.pasueButton.addEventListener("click", () => {
+            if (gameOn){
+                this.closeSquareImages()
+                this.attribute.modeText.textContent = "Paused"
+                this.attribute.modeText.style.display = "block";
+                this.firstClick = true;
+                this.blackOut(true);
+                gameOn = false;
+                startTimer();
+            } else {
+                this.nextTetromino.squareImage.style.display = "block";
+                this.startGame()
+            }
+        }) 
+
+        this.attribute.quitButton.addEventListener("click", () => {
+            this.resetGame("Play")
         })
 
     
@@ -371,22 +422,22 @@ class Game {
              //   console.log(this.row)
                 if(this.collision.wallCollision(this.tetro.group,"right",this.tetro.currentPosition)) return;
                 if(this.collision.squareCollision(this.tetro, this.collisionPoints,"right")) return;
-                if (Settings.prototype.gameOn) this.moveXPosition(1);
+                if (gameOn) this.moveXPosition(1);
             }
             if (action.key == "ArrowLeft"){
               //  this.jTetromino.group.map(tetro => console.log(tetro.currentSquare.position.xPosition, "tetro x position"))
                 //onsole.log("\n")
                 if(this.collision.wallCollision(this.tetro.group,"left")) return;
                 if(this.collision.squareCollision(this.tetro, this.collisionPoints,"left")) return;
-                if (Settings.prototype.gameOn) this.moveXPosition(-1);
+                if (gameOn) this.moveXPosition(-1);
             }
             if (action.key == "ArrowDown"){
                 if(this.collision.wallCollision(this.tetro.group,"bottom")) return;
-                if (Settings.prototype.gameOn) if (Settings.prototype.gameOn) this.moveYPosition(1);
+                if (gameOn)  this.moveYPosition(1);
             }
             if (action.key == "ArrowUp"){
           //p      console.log(this.tetro)
-                if (Settings.prototype.gameOn) {
+                if (gameOn) {
                    
            //         console.log(this.tetro, "this tetro")
                    // console.log(this.tetro.group, "this tetro group")
@@ -395,7 +446,7 @@ class Game {
                 }
             }
             if (action.key == "x"){
-                if (Settings.prototype.gameOn) {
+                if (gameOn) {
                     console.log(this.tetro, "this tetro")
                    this.differentTetromino = true;
                     
@@ -404,12 +455,12 @@ class Game {
 
             if (action.key == "q") {
 
-                Settings.prototype.gameOn = false;
+                gameOn = false;
                 startTimer();
             }
             if(action.key == "p") {
                 console.log("unpause")
-                Settings.prototype.gameOn = true
+                gameOn = true
                 startTimer();
             }
             action.preventDefault();
@@ -437,7 +488,39 @@ class Game {
         return rows;
     }
 
-    
+
+
+    checkMediaQuery(){
+        
+        let minWidth = window.matchMedia("(max-width:320px)");
+        console.log(minWidth);
+        minWidth.addEventListener("change", () => {
+            console.log("true")
+            if (minWidth.matches) this.resizeSquares();
+        })
+    }
+
+    resizeSquares(){
+        this.collisionPoints.map(squareObject => {
+            let square = squareObject.currentSquare;
+            square.size = 12;
+            let newPosition = square.position;
+            newPosition = newPosition.timesX(0.5);
+            newPosition = newPosition.timesY(0.5);
+            square.position = newPosition;
+            square.moveSquare
+        })
+        this.tetro.group.map(tetroObject => {
+            let square = tetroObject.currentSquare;
+            square.size = 12;
+            let newPosition = square.position;
+            newPosition = newPosition.timesX(0,5);
+            newPosition = newPosition.timesY(0.5);
+            square.position = newPosition;
+            square.moveSquare
+        })
+
+    }
 
     createXRows(){
         let index = 0;
@@ -452,25 +535,86 @@ class Game {
         return rows;
     }
 
+    resetBoard (){
+        this.collisionPoints.map(squareObject => {
+            squareObject.currentSquare.square.remove();
+        })
+        this.collisionPoints = [];
+    }
 
+    removeAllSquares(){
+        let currentSquare = document.querySelectorAll(".square");
+        for (let square of currentSquare){
+            square.remove();
+        }
+    }
+
+    blackOut(bool){
+        let currentSquare = document.querySelectorAll(".square");
+        if (bool){
+            
+            for (let square of currentSquare){
+                square.style.display = "none";
+            } 
+            } else {
+                for (let square of currentSquare){
+                    square.style.display = "block"
+                }
+            }
+        }
     
+
+    resetGame (message){
+        this.attribute.modeText.textContent = message;
+        this.attribute.modeText.style.display  = "block";
+        this.currentScore = 0;
+        this.currentLine = 0;
+        this.updateStats();
+        this.resetBoard();
+        this.removeAllSquares();
+        this.tetro = this.spawnRandomTetro();
+        //this.nextTetromino = this.spawnRandomTetro();
+        this.displayRandomTetro(this.nextTetromino);
+        this.tetro.changeDefaultPosition(this.defaultPosition,this.collisionPoints,true);
+        this.blackOut(true);
+
+
+
+        gameOn = false;
+
+
+
+    }
+
+
+    autoDropBlock(){
+        let currentTime = Date.now();
+        
+        if (currentTime - this.lastTime >= 500){
+            this.lastTime = currentTime;
+            this.moveYPosition(1);
+        }   
+        
+    }
+
     runGame(){
        // console.log(this.tetro.group, "tetro group")
         if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
         this.updateStats();
-    
         this.xRows = this.createXRows();
-        
-
         this.yRows = this.createYRows();
         this.xRows = this.createXRows();
+        if (this.collision.vetricalRowCollision(this.collisionPoints)) this.resetGame("Game Over!");
+        this.autoDropBlock()
+        this.checkMediaQuery()
+
         
   
         this.checkRows();
         
        this.collision.detectCollision(this.tetro,this.collisionPoints)
         if (this.collision.levelCollision(this.tetro,this.xRows,this.collisionPoints)) this.addToGrid(this.tetro);
-        if (this.collision.vetricalRowCollision(this.collisionPoints)) console.log('game over')
+       
 
       //  if (this.canDrop){
         //    this.canDrop = false;
@@ -485,12 +629,13 @@ class Game {
 }
 
 
+
 let game = new Game;
 
 game.runOnce()
 function startTimer(){
     let timer = setInterval(()=>{
-        if(!Settings.prototype.gameOn) clearInterval(timer);
+        if(!gameOn) clearInterval(timer);
         game.runGame()
     },10)
 }
