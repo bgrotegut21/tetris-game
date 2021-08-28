@@ -8,19 +8,11 @@
 body {
     background:rgb(27, 27, 27);
     color:white;
-
     font-family: 'Electrolize', sans-serif;
     touch-action: none;
-
 }
 .content {
-
-
     padding-bottom: 10px;
- 
-    
-    
-
 }
 main {
     text-align:center;
@@ -29,19 +21,16 @@ main {
     margin-top: 10px;
 }
 .stats-holder {
-
     display: flex;
     justify-content: center;
 }
 
 .stats {
-
     width: 120px;
     display: flex;
     justify-content: space-around;
 
 }
-
 .score-number {
     font-size: smaller;
 }
@@ -50,7 +39,6 @@ main {
 }
 
 .grid-holder {
-
     display:flex;
     justify-content: center;
 
@@ -71,9 +59,7 @@ main {
 }
 
 .bottom-container {
-
     display: flex;
-
     justify-content: center;
 }
 
@@ -81,24 +67,18 @@ main {
     display: block;
     cursor: pointer;
 }
-
 .pause , .quit {
     cursor: pointer;
 }
 .grid-buttons {
-
     display: flex;
     width:250px;
-
     justify-content: space-between;
 }
 .small-grid {
     width:60px;
-
-
     height:40px;
     background:white;
-    
 }
 
 .iTetromino-image{
@@ -111,7 +91,6 @@ main {
     position:relative;
     top:10px;
     display:none;
-
 }
 
 .sTetromino-image {
@@ -129,50 +108,32 @@ main {
     position:relative;
     top: 10px;
     display:none
-    
 }
 .oTetromino-image {
     position:relative;
     top: 10px;
     display:none;
-    
 }
 
 .lTetromino-image {
     position:relative;
     top: 10px;
-    display: none;
-    
+    display: none;    
 }
-
-
-
-
-
-
-
 
 .bottom-container {
     margin-top: 10px;
-
 }
 
 .zTetromino {
     background:green;
     top:10px;
     display:none;
-
 }
-
-
-
-
 
 .tr {
     background:green
 }
-
-
 
 @media only screen and (max-width: 320px){
     .grid{
@@ -184,43 +145,30 @@ main {
     .grid-buttons {
         width:125px;
         flex-wrap: wrap;
- 
     }
     .buttons {
         width: 125px;
-
         justify-content:space-around ;
         display: flex;
-    }
-
-    
+    }    
 }
-
 
 @media only screen and (min-width: 600px){
     .content {
-     
         display:flex;
-        
     }
     .grid-buttons {
-     
         display: flex;
         flex-direction: column;
         width:200px;
         align-items: center;
-       
         margin-left: 30px;
-
     }
     .stats {
-        
         width:200px;
         justify-content: space-around;
-        
         flex-direction: row;
         font-size: larger;
-
     }
     .buttons{
         display: flex;
@@ -238,7 +186,6 @@ main {
         display: none;
         width:120px
     }
-    
     .zTetromino-image {
         position:relative;
         top:20px;
@@ -246,14 +193,12 @@ main {
         width:120px;
     
     }
-    
     .sTetromino-image {
         position:relative;
         top:20px;
         display:none;
         width:120px;
     }
-    
     .tTetromino-image {
         position:relative;
         top:20px;
@@ -274,18 +219,12 @@ main {
         width:120px;
         
     }
-    
     .lTetromino-image {
         position:relative;
         top: 20px;
         display: none;
-        width:120px;
-        
+        width:120px;   
     }
-
-    
-
-    
 }
 
 @media only screen and (max-width: 320px){
@@ -296,8 +235,9 @@ main {
         line-height: 250px;
     }
 
-
-
+    .mode-text{
+        font-size:large;
+    }
 
     .grid-buttons {
         width:125px;
@@ -306,12 +246,9 @@ main {
     }
     .buttons {
         width: 125px;
-
         justify-content:space-around ;
         display: flex;
     }
-
-    
 }
 
 

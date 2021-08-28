@@ -14,6 +14,9 @@ export class TetroTask {
         })
     }
 
-
-
+    checkSize(square,isReduceSize){
+        console.log(isReduceSize, "is reduction")
+        if (isReduceSize) square.reduceSquareSize;
+        else square.enlargeSize;
+    }
 }

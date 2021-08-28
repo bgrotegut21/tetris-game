@@ -20,15 +20,10 @@ export class ZTetromino {
         this.task = new TetroTask;
         this.squareImage = this.attribute.zTetrominoImage;
         this.restictPosition = false;
-    
-
+        this.reduceSize = false;
     }
 
-
-
-
     changePlacement(position,collisionPoints){
-      //  console.log(this.currentPosition, "current positions")
         if(this.restictPosition) return true;
         if (this.currentPosition == 2) this.currentPosition = 1;
         else this.currentPosition += 1;
@@ -56,21 +51,17 @@ export class ZTetromino {
         }
     }
 
-
-
-
-
     changeFirstPosition(position,collisionPoints){
         this.task.emptySquareObjects(this.group);
         this.group = [];
         let square;
         let currentPosition = position;
-
         currentPosition = currentPosition.addX(2);
         
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,"images/redTetromino.svg");
             currentPosition = currentPosition.addY(1);
+            this.task.checkSize(square, this.reduceSize)
             square.square.style.visibility = "hidden"
             square.createSquare;
             let squareObject = {currentSquare: square, playable:true}
@@ -79,28 +70,19 @@ export class ZTetromino {
 
         currentPosition = currentPosition.addX(-1);
         currentPosition = currentPosition.addY(-1);
-
-
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,"images/redTetromino.svg");
             currentPosition = currentPosition.addY(1);
+            this.task.checkSize(square, this.reduceSize)
             square.square.style.visibility = "hidden"
             square.createSquare;
             let squareObject = {currentSquare: square, playable:true}
             this.group.push(squareObject);
         }  
-
-
-
-
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
-
     }
 
-
-
     changeDefaultPosition(position,collisionPoints,modifyPosition) {
-    //    console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         
@@ -112,6 +94,7 @@ export class ZTetromino {
             square = new Square(currentPosition,"images/redTetromino.svg");
             currentPosition = currentPosition.addX(1);
             square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
             square.createSquare;
             let squareObject = {currentSquare: square, playable:true}
             this.group.push(squareObject);
@@ -122,20 +105,17 @@ export class ZTetromino {
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,"images/redTetromino.svg");
             square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
             square.createSquare;
             currentPosition = currentPosition.addX(1);
             let squareObject = {currentSquare: square, playable:true}
             this.group.push(squareObject);
         } 
-       // console.log(!this.collision.normalCollision(this, collisionPoints))
         if(this.collision.wallCollision(this.group,"left2")){
             this.currentPosition = 2;
             this.changeFirstPosition(position.addX(-2),collisionPoints);
         
         }
-
-
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
     }
-
 }

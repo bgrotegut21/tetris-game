@@ -11,7 +11,6 @@ export class Position {
             let newPosition = this.yPosition + incrementYPosition;
             return new Position(this.xPosition, newPosition)
         }
-
         timesX (incrementXPosition){
             let newPosition = this.xPosition * incrementXPosition;
             return new Position(newPosition, this.yPosition);
@@ -20,5 +19,4 @@ export class Position {
             let newPosition = this.yPosition * incrementYPosition;
             return new Position(this.xPosition, newPosition)
         }
-    
     }

@@ -20,15 +20,10 @@ export class STetromino {
         this.task = new TetroTask;
         this.squareImage = this.attribute.sTetrominoImage;
         this.restictPosition = false;
-    
-
+        this.reduceSize = false;
     }
 
-
-
-
     changePlacement(position,collisionPoints){
-      //  console.log(this.currentPosition, "current positions")
         if(this.restictPosition) return true;
         if (this.currentPosition == 2) this.currentPosition = 1;
         else this.currentPosition += 1;
@@ -56,20 +51,15 @@ export class STetromino {
         }
     }
 
-
-
-
-
     changeFirstPosition(position,collisionPoints){
         this.task.emptySquareObjects(this.group);
         this.group = [];
         let square;
         let currentPosition = position;
-
-
         for (let num = 0; num < 2; num++) {
             square = new Square(currentPosition,this.image);
-             // square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
+            square.square.style.visibility = "hidden";
             square.createSquare;
             currentPosition = currentPosition.addY(-1)
             let squareObject = {currentSquare: square, playable:true};
@@ -81,36 +71,28 @@ export class STetromino {
 
         for (let num = 0; num < 2; num++) {
             square = new Square(currentPosition,this.image);
-             // square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
+            square.square.style.visibility = "hidden";
             square.createSquare;
             currentPosition = currentPosition.addY(1)
             let squareObject = {currentSquare: square, playable:true};
             this.group.push(squareObject);
 
         }
-
-
-
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
-
     }
 
-
-
     changeDefaultPosition(position,collisionPoints, modifyPosition) {
-
-    
-       // console.log("chande defualt position")
         this.task.emptySquareObjects(this.group);
         this.group = []
         
         let square;
         let currentPosition = position;
         if (modifyPosition) currentPosition = currentPosition.addY(1)
-
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,this.image);
-            // square.square.style.visibility = "hidden";
+            square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
             square.createSquare;
             currentPosition = currentPosition.addX(1);
             
@@ -122,7 +104,8 @@ export class STetromino {
 
         for (let num = 0; num < 2; num ++){
             square = new Square(currentPosition,this.image);
-            // square.square.style.visibility = "hidden";
+            this.task.checkSize(square, this.reduceSize)
+            square.square.style.visibility = "hidden";
             square.createSquare;
             currentPosition = currentPosition.addX(-1);
             
@@ -134,8 +117,6 @@ export class STetromino {
             this.changeFirstPosition(position,collisionPoints);
         
         }
-
-
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
     }
 

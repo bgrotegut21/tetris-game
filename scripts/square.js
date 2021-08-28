@@ -13,14 +13,15 @@ export class Square {
     
 
     get createSquare(){
-        let currentXPosition = this.position.xPosition * this.size;
-        let currentYPosition = this.position.yPosition * this.size;
+        let size = this.size;
+        if (this.isReduction) size = this.smallerSize;
+        let currentXPosition = this.position.xPosition * size;
+        let currentYPosition = this.position.yPosition * size;
         this.square.style.background = `url(${this.backgroundImage})`
         this.square.style.left = currentXPosition + "px";
         this.square.style.top = currentYPosition + "px";
         this.square.setAttribute("class","square");
         this.attribute.grid.appendChild(this.square);
-
     }
 
     get moveSquare(){
@@ -34,7 +35,6 @@ export class Square {
     }
 
     get reduceSquareSize (){
-        console.log("reducin")
         this.isReduction = true;
         let currentXPosition = this.position.xPosition * this.smallerSize;
         let currentYPosition = this.position.yPosition * this.smallerSize;
@@ -44,7 +44,17 @@ export class Square {
 
         this.square.style.height = this.smallerSize + "px";
         this.square.style.width = this.smallerSize + "px";
-        
+    }
 
+    get enlargeSize (){
+        this.isReduction = false;
+        let currentXPosition = this.position.xPosition * this.size;
+        let currentYPosition = this.position.yPosition * this.size;
+        
+        this.square.style.left = currentXPosition + "px";
+        this.square.style.top = currentYPosition + "px";
+
+        this.square.style.height = this.size + "px";
+        this.square.style.width = this.size + "px"
     }
 }

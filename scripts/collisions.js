@@ -1,5 +1,4 @@
 export class Collision {
-
     wallCollision(tetrogroup,direction){
         let restrictMovement = false;
     
@@ -9,7 +8,6 @@ export class Collision {
             if (direction == "right"){
 
                 if (square.position.xPosition > 8){
-                    console.log("collision")
                     restrictMovement = true
                     break
                 } else {
@@ -36,7 +34,6 @@ export class Collision {
             } 
 
             if (direction == "left2"){
-                //console.log("collision")
                 if (square.position.xPosition < 0){
                     restrictMovement = true;
                     break
@@ -53,9 +50,7 @@ export class Collision {
                 } else {
                     restrictMovement = false;
                 }
-            } 
-
-            
+            }             
         }
         return restrictMovement;
     }
@@ -79,7 +74,6 @@ export class Collision {
     getEmptyRows(array){
         let index = 0;
         let addEmptySpace = false;
-        //console.log(array, "array")
         let arrayEmptySpace = {0:"empty"}
         let arrayKeys
 
@@ -119,45 +113,26 @@ export class Collision {
         xKeys.map(key => {
             let index =0;
             while (index != 20){
-              //  console.log(key, "current key ")
                 if (xRows[key][index] != "empty"){
                     let square = xRows[key][index];
                     let coordinates = {xCoord: square.position.xPosition, yCoord: square.position.yPosition};
-                    //console.log(coordinates, "coordinates");
                     currentHeights.push(coordinates);
-                   // console.log(currentHeights, "current heighs")
                 } else if(xRows[key][index] == "empty"){
-                  //  console.log(currentHeights, "current heights")
                     let numbers = [];
-                
                     currentHeights.map(coordinates => {
                         numbers.push(coordinates.yCoord);
                      
                     })
-                    
                     let leastNumber = numbers.sort((a,b) => a-b);
                     if(currentHeights.length != 0){
-                    //    console.log(currentHeights, "current heights")
-                     //   if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
                         let coordinates = {xCoord:currentHeights[0].xCoord, yCoord:leastNumber[0]}
                         heights.push(coordinates);
-                        
-
                   }
                     currentHeights = [];
-                    
-                  //  console.log(coordinates, "coordinates")
-                   // console.log(currentHeights.length, "current heights length")
-                  // console.log(key, "key")
-                 // console.log(currentHeights, "current heights")
-                    
                 } 
                 index ++;
-                //console.log(currentHeights, "current heigths")
-            
             }
-            let numbers = [];
-                
+            let numbers = []; 
             currentHeights.map(coordinates => {
                 numbers.push(coordinates.yCoord);
              
@@ -165,20 +140,12 @@ export class Collision {
             
             let leastNumber = numbers.sort((a,b) => a-b);
             if(currentHeights.length != 0){
-            //    console.log(currentHeights, "current heights")
-                if(currentHeights[0].yCoord == 9) console.log(currentHeights[0])
                 let coordinates = {xCoord:currentHeights[0].xCoord, yCoord:leastNumber[0]}
                 heights.push(coordinates);
-                
-
           }
             currentHeights = []; 
-            
-
         })
        return heights;
-
-
     }
 
 
@@ -206,10 +173,8 @@ export class Collision {
     }
 
     normalCollision(tetro,collisionPoints){
-    //    console.log(collisionPoints)
         for (let squareObject of collisionPoints){
             let square = squareObject.currentSquare;
-
             for(let tetroObject of tetro.group){
                 let tetroSquare = tetroObject.currentSquare;
                 if(square.position.yPosition == tetroSquare.position.yPosition && 
@@ -224,12 +189,10 @@ export class Collision {
         let comparisonNumber;
         if (typeof number == "undefined") comparisonNumber =0;
         else comparisonNumber = number;
-        //console.log(collisionPoints, "collision points")
         for (let squareObject of collisionPoints){
             let square = squareObject.currentSquare;
             
             if (square.position.yPosition == comparisonNumber){
-                console.log(square.position.xPosition, "square x position")
                 return true
             }
         }
@@ -243,6 +206,16 @@ export class Collision {
         }
     }
 
+    fartherBottomCollision(tetro){
+        for (let tetroObject of tetro.group){
+            let square = tetroObject.currentSquare;
+            if (square.position.yPosition >= 20){
+                return true;
+            }
+        }
+    
+    }
+
     squareCollision(tetro, collisionPoints,direction){
 
         let restrictMovement = false
@@ -251,10 +224,7 @@ export class Collision {
             for (let squareObject of collisionPoints){
                 let square = squareObject.currentSquare;
                 if (tetroSquare.position.yPosition == square.position.yPosition ){
-
-                    
                     if (direction == "right") {
-
                         if (this.rightCollision(tetroSquare,square)){
                             
                             restrictMovement = true;
@@ -264,18 +234,14 @@ export class Collision {
                         }
                     }
                     if (direction == "left"){
-                        if (this.leftCollision(tetroSquare,square)){
-                           // console.log("left collision")
-                           
+                        if (this.leftCollision(tetroSquare,square)){                    
                             restrictMovement = true;
                             break;
                         } else {
                             tetro.restrictPosition = false;
                         }
                     }
-        
-                }
-                
+                }  
             }
         }
         return restrictMovement;
