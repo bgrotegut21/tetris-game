@@ -260,13 +260,13 @@ class Game {
         if (this.tetro.type == "lTetromino"){
             if(this.collision.vetricalRowCollision(this.collisionPoints,2)){
                 if (this.collision.normalCollision(this.tetro,this.collisionPoints)){
-                    this.resetGame()
+                    this.resetGame("Game Over!")
                 }
             }
         } else {
             if (this.collision.vetricalRowCollision(this.collisionPoints,1)){
                 if (this.collision.normalCollision(this.tetro,this.collisionPoints)){
-                   this.resetGame()
+                   this.resetGame("Game Over!")
                 }
             }
         }
@@ -370,7 +370,8 @@ class Game {
     gameOn = true;
     this.blackOut(false)
     this.attribute.modeText.style.display = "none";
-    this.nextTetromino.squareImage.style.display = "block"; 
+    this.nextTetromino.squareImage.style.display = "block";
+     
     this.firstClick = true;
     this.lastTime = Date.now();
     startTimer();
@@ -493,32 +494,28 @@ class Game {
     checkMediaQuery(){
         
         let minWidth = window.matchMedia("(max-width:320px)");
-        console.log(minWidth);
+       // console.log(minWidth);
         minWidth.addEventListener("change", () => {
-            console.log("true")
+            console.log(minWidth.matches, "min width matches")
             if (minWidth.matches) this.resizeSquares();
         })
     }
 
     resizeSquares(){
+        gameOn = false;
+        startTimer();
         this.collisionPoints.map(squareObject => {
+
             let square = squareObject.currentSquare;
-            square.size = 12;
-            let newPosition = square.position;
-            newPosition = newPosition.timesX(0.5);
-            newPosition = newPosition.timesY(0.5);
-            square.position = newPosition;
-            square.moveSquare
+            square.reduceSquareSize;
         })
+
         this.tetro.group.map(tetroObject => {
             let square = tetroObject.currentSquare;
-            square.size = 12;
-            let newPosition = square.position;
-            newPosition = newPosition.timesX(0,5);
-            newPosition = newPosition.timesY(0.5);
-            square.position = newPosition;
-            square.moveSquare
+            square.reduceSquareSize;
+
         })
+    
 
     }
 
@@ -565,6 +562,7 @@ class Game {
     
 
     resetGame (message){
+        console.log(message, "a current message")
         this.attribute.modeText.textContent = message;
         this.attribute.modeText.style.display  = "block";
         this.currentScore = 0;

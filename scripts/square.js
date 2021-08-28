@@ -5,8 +5,10 @@ export class Square {
         this.position = position;
         this.backgroundImage = backgroundImage;
         this.size = 25;
+        this.smallerSize = 12.5;
         this.attribute = new Attribute;
         this.square = document.createElement("div")
+        this.isReduction = false;
     }
     
 
@@ -22,11 +24,27 @@ export class Square {
     }
 
     get moveSquare(){
-        let currentXPosition = this.position.xPosition * this.size;
-        let currentYPosition = this.position.yPosition * this.size;
+        let size = this.size;
+        if(this.isReduction) size = this.smallerSize;
+        let currentXPosition = this.position.xPosition * size;
+        let currentYPosition = this.position.yPosition * size;
+
         this.square.style.left = currentXPosition + "px";
         this.square.style.top = currentYPosition + "px";
     }
 
-    
+    get reduceSquareSize (){
+        console.log("reducin")
+        this.isReduction = true;
+        let currentXPosition = this.position.xPosition * this.smallerSize;
+        let currentYPosition = this.position.yPosition * this.smallerSize;
+
+        this.square.style.left  = currentXPosition + "px";
+        this.square.style.top = currentYPosition + "px";
+
+        this.square.style.height = this.smallerSize + "px";
+        this.square.style.width = this.smallerSize + "px";
+        
+
+    }
 }
