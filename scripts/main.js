@@ -46,7 +46,7 @@ class Game {
         this.row ={0:[]};
         this.yRows;
         this.xRows;
-        this.canDrop = true
+      //  this.canDrop = false
         this.score = this.attribute.scoreNumber;
         this.lines = this.attribute.lineNumber;
         this.defaultPosition = new Position(4,0)
@@ -64,7 +64,7 @@ class Game {
         this.clickEvents();
         
         this.tetro = this.spawnRandomTetro();
-        this.tetro = this.iTetromino;
+        this.tetro = this.oTetromino
         this.tetro.changeDefaultPosition(this.defaultPosition,this.collisionPoints,true);
         this.tetro.currentPosition = 1;
 
@@ -212,6 +212,9 @@ class Game {
         this.tetro = this.nextTetromino;
         this.nextTetromino = this.spawnRandomTetro();
         this.displayRandomTetro(this.nextTetromino)
+       // if (this.canDrop) this.tetro = this.zTetromino;
+
+
         this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints,true)
         this.tetro.currentPosition = 1;
         this.checkVericalCollision()
@@ -318,13 +321,15 @@ class Game {
             }
         })
 
+
+
         this.attribute.pasueButton.addEventListener("click", () => {
             if (gameOn){
                 this.closeSquareImages()
                 this.attribute.modeText.textContent = "Paused"
                 this.attribute.modeText.style.display = "block";
                 this.firstClick = true;
-                this.blackOut(true);
+               // this.blackOut(true);
                 gameOn = false;
                 startTimer();
             } else {
@@ -374,6 +379,10 @@ class Game {
                     
                 }
             }
+
+        //   if (action.key == "x"){
+         //       this.canDrop = true;
+        //    }
             action.preventDefault();
         }
         )}
@@ -489,31 +498,39 @@ class Game {
 
     autoDropBlock(){
         let currentTime = Date.now();
-        if (currentTime - this.lastTime >= 500){
+        if (currentTime - this.lastTime >= 300){
             this.lastTime = currentTime;
             this.moveYPosition(1);
+         //   this.moveXPosition(Math.random * 10);
         }           
     }
 
     runGame(){
+        
+
+        
+        this.yRows = this.createYRows();
+        this.xRows = this.createXRows();
+
+
+        if (this.collision.levelCollision(this.tetro,this.xRows,this.collisionPoints)) this.addToGrid(this.tetro);
+
         if(this.collision.fartherBottomCollision(this.tetro)){
-            console.log("reversing placement")
             this.tetro.reversePlacement(this.tetro.group[0].currentSquare.position, this.collisionPoints);
         } else {
             if(this.collision.wallCollision(this.tetro.group, "bottom")) this.addToGrid(this.tetro)
-           console.log("revert placement")
         }
        
-        this.updateStats();
-        this.yRows = this.createYRows();
-        this.xRows = this.createXRows();
+
+
         if (this.collision.vetricalRowCollision(this.collisionPoints)) this.resetGame("Game Over!");
-        this.autoDropBlock()
+
+        this.collision.detectCollision(this.tetro,this.collisionPoints)
+        this.updateStats();
         this.checkMediaQuery()
-        
+        console.log(this.yRows, "y rows");
         this.checkRows();
-       this.collision.detectCollision(this.tetro,this.collisionPoints)
-        if (this.collision.levelCollision(this.tetro,this.xRows,this.collisionPoints)) this.addToGrid(this.tetro);
+        this.autoDropBlock()
     }
 }
 
