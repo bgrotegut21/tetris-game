@@ -18,6 +18,7 @@ import {Collision} from "./collisions.js"
 let attribute = new Attribute;
 let gameOn = false;
 let pausedGame = false;
+let lastTime = Date.now();
 
 class Game {
     constructor(){
@@ -175,13 +176,46 @@ class Game {
         fallingRow.map(key => {
             row[key].map(squareObject => {
                 let square = squareObject.currentSquare;
-                square.position = square.position.addY(1)
+                console.log(square, "square")
+                square.position = square.position.addY(1);
                 square.moveSquare;
+                this.removeSquare(square)
+
             })
         })
         this.updateLines(1);
         
     }
+
+    removeSquare(dropSquare){
+        console.log("remove square")
+
+        let newPoints = []
+
+
+        this.collisionPoints.map(squareObject => {
+            let square = squareObject.currentSquare;
+            if (square.position.xPosition == dropSquare.position.xPosition &&
+                square.position.yPosition == dropSquare.position.yPosition){
+                    square.square.remove();
+                } else {
+                    newPoints.push(square);
+                }
+        })
+
+        this.collisionPoints = newPoints;
+    }
+//    checkSquares(dropSquare){
+   //     console.log("checking squares")
+     //   for (let squareObject of this.collisionPoints){
+       //     let square = squareObject.currentSquare;
+        //    if(square.position.xPosition == dropSquare.position.xPosition &&
+         //       square.position.yPosition == dropSquare.position.yPosition){
+             //       return true;
+                //} 
+  //      }
+ //       return false;
+//    }
    
     checkVericalCollision(){
         if (this.tetro.type == "lTetromino"){
@@ -498,7 +532,7 @@ class Game {
 
     autoDropBlock(){
         let currentTime = Date.now();
-        if (currentTime - this.lastTime >= 300){
+        if (currentTime - this.lastTime >= 500){
             this.lastTime = currentTime;
             this.moveYPosition(1);
          //   this.moveXPosition(Math.random * 10);
@@ -528,7 +562,7 @@ class Game {
         this.collision.detectCollision(this.tetro,this.collisionPoints)
         this.updateStats();
         this.checkMediaQuery()
-        console.log(this.yRows, "y rows");
+        //onsole.log(this.yRows, "y rows");
         this.checkRows();
         this.autoDropBlock()
     }
@@ -540,8 +574,12 @@ game.runOnce()
 function startTimer(){
     let timer = setInterval(()=>{
         if(!gameOn) clearInterval(timer);
-        game.runGame()
-    },10)
+        let currentTime = Date.now();
+        if (currentTime - lastTime >= 10){
+            lastTime = Date.now();
+            game.runGame();
+        };
+    },1)
 }
 
 
