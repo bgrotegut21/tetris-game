@@ -45,7 +45,6 @@ export class JTetromino {
     }
 
     reversePlacement(position,collisionPoints){
-        console.log("reversing placement")
         if (this.currentPosition == 1){
             this.changeThridPosition(position,collisionPoints);
             this.currentPosition = 4;
