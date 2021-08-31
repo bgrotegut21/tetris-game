@@ -23,7 +23,6 @@ export class LTetromino {
         this.restictPosition = false;
         this.type == "lTetromino"
         this.reduceSize = false;
-    
 
     }
 
@@ -49,7 +48,6 @@ export class LTetromino {
             this.changeThridPosition(position,collisionPoints);
             return;
         }
-
     }
 
     reversePlacement(position,collisionPoints){
