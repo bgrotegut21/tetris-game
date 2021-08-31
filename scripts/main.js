@@ -259,7 +259,7 @@ class Game {
                 this.leftMovment();
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
-            if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %10 == 0 ){
+            if (Math.floor(touchEvent.clientY) > yRecordedPosition && (Math.floor(touchEvent.clientY) - yRecordedPosition) %5 == 0 ){
                 this.downMovement();
                 yRecordedPosition = Math.floor(touchEvent.clientY);
             }
