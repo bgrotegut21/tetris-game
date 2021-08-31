@@ -67,10 +67,6 @@ export class Collision {
         return restrictMovement;
     }
 
-
- 
-
-
     getEmptyRows(array){
         let index = 0;
         let addEmptySpace = false;
@@ -93,11 +89,6 @@ export class Collision {
             })
             index ++;
         }
-
-
-        
-
-
         return arrayEmptySpace;
     }
 
@@ -164,7 +155,6 @@ export class Collision {
       }
     }
 
-
     showVisbility(tetro){
         tetro.group.map(squareObject => {
             let currentSquare = squareObject.currentSquare;
@@ -198,8 +188,6 @@ export class Collision {
         }
     }
 
-
-
     detectCollision(tetro,collisionPoints){
         if (this.normalCollision(tetro,collisionPoints)){
             tetro.reversePlacement(tetro.group[0].currentSquare.position,collisionPoints)
@@ -217,7 +205,6 @@ export class Collision {
     }
 
     squareCollision(tetro, collisionPoints,direction){
-
         let restrictMovement = false
         for (let tetroObject of tetro.group){
             let tetroSquare = tetroObject.currentSquare;
