@@ -251,11 +251,11 @@ class Game {
             if (!allowtoMove) return;
             this.tetro.stopMovement = false
             let touchEvent = action.changedTouches[0];
-            if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 5 == 0){
+            if (Math.floor(touchEvent.clientX) >recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
                 this.rightMovement();
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
-            if (Math.floor(touchEvent.clientX) < recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 5 == 0){
+            if (Math.floor(touchEvent.clientX) < recordedPosition && (Math.floor(touchEvent.clientX) - recordedPosition) % 10 == 0){
                 this.leftMovment();
                 recordedPosition = Math.floor(touchEvent.clientX);
             }
