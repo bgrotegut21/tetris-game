@@ -135,16 +135,15 @@ export class LTetromino {
         }
 
         currentPosition = currentPosition.addY(3);
-        for(let num = 0; num <2; num ++){
-            square = new Square(currentPosition, this.image);
-            square.square.style.visibility = "hidden"
-            this.task.checkSize(square, this.reduceSize)
-            square.createSquare;
+        currentPosition = currentPosition.addX(1)
+        square = new Square(currentPosition, this.image);
+        square.square.style.visibility = "hidden"
+        this.task.checkSize(square, this.reduceSize)
+        square.createSquare;
      
-             let squareObject = {currentSquare: square, playable:true};
-             this.group.push(squareObject)
-             currentPosition = currentPosition.addX(1)
-        }
+        let squareObject = {currentSquare: square, playable:true};
+        this.group.push(squareObject)
+
         if (!this.collision.normalCollision(this, collisionPoints)) this.task.makeTetroVisbile(this.group)
     }
 

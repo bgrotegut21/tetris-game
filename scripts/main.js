@@ -101,8 +101,7 @@ class Game {
         this.tetro.group.map(squareObject => {
             let square = squareObject.currentSquare;
             square.position = square.position.addX(number)
-            square.moveSquare
-            
+            square.moveSquare 
         })
 
     }
@@ -112,7 +111,6 @@ class Game {
             let square = squareObject.currentSquare;
             square.position = square.position.addY(number)
             square.moveSquare
-            
         })
     }
 
@@ -146,7 +144,6 @@ class Game {
         let lowestLength;
         let filteredRow = [];
         let fallingRow = []
-        console.log(newRow, "new row")
         for (let number of newRowKeys){
             if(newRow[number].length != 0){
                 highestLength = number;
@@ -164,11 +161,9 @@ class Game {
                break
            }
        }
-       console.log(lowestLength)
         for (let value of filteredRow){
             if (value < Number(lowestLength)) fallingRow.push(value);
         }
-      
         this.dropBlocks(fallingRow, newRow);
     }
 
@@ -176,46 +171,13 @@ class Game {
         fallingRow.map(key => {
             row[key].map(squareObject => {
                 let square = squareObject.currentSquare;
-                console.log(square, "square")
                 square.position = square.position.addY(1);
                 square.moveSquare;
-                this.removeSquare(square)
 
             })
         })
         this.updateLines(1);
-        
     }
-
-    removeSquare(dropSquare){
-        console.log("remove square")
-
-        let newPoints = []
-
-
-        this.collisionPoints.map(squareObject => {
-            let square = squareObject.currentSquare;
-            if (square.position.xPosition == dropSquare.position.xPosition &&
-                square.position.yPosition == dropSquare.position.yPosition){
-                    square.square.remove();
-                } else {
-                    newPoints.push(square);
-                }
-        })
-
-        this.collisionPoints = newPoints;
-    }
-//    checkSquares(dropSquare){
-   //     console.log("checking squares")
-     //   for (let squareObject of this.collisionPoints){
-       //     let square = squareObject.currentSquare;
-        //    if(square.position.xPosition == dropSquare.position.xPosition &&
-         //       square.position.yPosition == dropSquare.position.yPosition){
-             //       return true;
-                //} 
-  //      }
- //       return false;
-//    }
    
     checkVericalCollision(){
         if (this.tetro.type == "lTetromino"){
@@ -246,8 +208,6 @@ class Game {
         this.tetro = this.nextTetromino;
         this.nextTetromino = this.spawnRandomTetro();
         this.displayRandomTetro(this.nextTetromino)
-       // if (this.canDrop) this.tetro = this.zTetromino;
-
 
         this.tetro.changeDefaultPosition(defaultPosition,this.collisionPoints,true)
         this.tetro.currentPosition = 1;
@@ -317,7 +277,6 @@ class Game {
 
     checkJTetro(tetro){
         if (tetro.currentPosition == 2){
-            console.log(tetro.currentPosition, "tetro current position")
             return true;
         }
     }
@@ -355,16 +314,14 @@ class Game {
             }
         })
 
-
-
         this.attribute.pasueButton.addEventListener("click", () => {
             if (gameOn){
                 this.closeSquareImages()
                 this.attribute.modeText.textContent = "Paused"
                 this.attribute.modeText.style.display = "block";
                 this.firstClick = true;
-               // this.blackOut(true);
                 gameOn = false;
+                this.blackOut(true)
                 startTimer();
             } else {
                 this.nextTetromino.squareImage.style.display = "block";
@@ -407,16 +364,11 @@ class Game {
                 this.downMovement();
             }
             if (action.key == "ArrowUp"){
-          //p      console.log(this.tetro)
                 if (gameOn) {
                     this.tetro.changePlacement(this.tetro.group[0].currentSquare.position,this.collisionPoints)
                     
                 }
             }
-
-        //   if (action.key == "x"){
-         //       this.canDrop = true;
-        //    }
             action.preventDefault();
         }
         )}
@@ -497,6 +449,8 @@ class Game {
         }
     }
 
+
+
     blackOut(bool){
         let currentSquare = document.querySelectorAll(".square");
         if (bool){            
@@ -511,10 +465,8 @@ class Game {
         }
     
     resetGame (message){
-        console.log(message, "a current message")
         this.attribute.modeText.textContent = message;
         this.attribute.modeText.style.display  = "block";
-        console.log("close square images")
         this.closeSquareImages();
         this.currentScore = 0;
         this.currentLine = 0;
@@ -535,7 +487,6 @@ class Game {
         if (currentTime - this.lastTime >= 500){
             this.lastTime = currentTime;
             this.moveYPosition(1);
-         //   this.moveXPosition(Math.random * 10);
         }           
     }
 
@@ -562,7 +513,6 @@ class Game {
         this.collision.detectCollision(this.tetro,this.collisionPoints)
         this.updateStats();
         this.checkMediaQuery()
-        //onsole.log(this.yRows, "y rows");
         this.checkRows();
         this.autoDropBlock()
     }
@@ -575,7 +525,7 @@ function startTimer(){
     let timer = setInterval(()=>{
         if(!gameOn) clearInterval(timer);
         let currentTime = Date.now();
-        if (currentTime - lastTime >= 10){
+        if (currentTime - lastTime >= 1){
             lastTime = Date.now();
             game.runGame();
         };
